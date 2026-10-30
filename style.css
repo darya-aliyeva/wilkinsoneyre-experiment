@@ -1,0 +1,4447 @@
+/* Design tokens from Figma */
+:root {
+  --color-light: #edece8;          /* "Серый" */
+  --color-brown: #221109;          /* "Темно-коричневый" */
+  --color-brown-soft: #443930;     /* "Коричневый" */
+  --color-beige: #c5b1a1;          /* "Телесный" */
+  --color-dark: #1c1b19;
+  --hero-overlay: rgba(0, 0, 0, 0.6);
+
+  --font-display: "Soligant", "Italiana", "Didot", serif;
+  --font-text: "Neue Haas Grotesk Display Pro", "Inter", "Helvetica Neue", Arial, sans-serif;
+
+  /* Layout: mobile < 768 ≤ tablet < 1024 ≤ desktop */
+  --container-pad: 16px;
+  --section-gap: 75px;             /* between sections: 75 / 100 / 150 */
+  --button-gap: 20px;              /* section content → button-wrap */
+  --header-h: 64px;                /* mobile / tablet header bar */
+}
+
+@media (min-width: 768px) {
+  :root {
+    --container-pad: 32px;
+    --section-gap: 100px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    /* 40px at 1024 → 200px at 1600 (1200px content) */
+    --container-pad: clamp(40px, 27.78vw - 244.4px, 200px);
+    --section-gap: 150px;
+    --button-gap: 30px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-light);
+  color: var(--color-brown);
+  font-family: var(--font-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* Smooth scrolling to the menu anchors (#architecture, #thinking, #career, #news, #contact) */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* A little air above a section when a menu link scrolls to it */
+.section {
+  scroll-margin-top: 40px;
+}
+
+.container {
+  width: min(1200px, 100% - 2 * var(--container-pad));
+  margin-inline: auto;
+}
+
+.section {
+  margin-top: var(--section-gap);
+}
+
+/* Section content + button-wrap */
+.section__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--button-gap);
+}
+
+/* ---------- Header (fixed, 10px from the top) ----------
+   Items are dark (#221109) by default and switch to light (#EDECE8) one by one
+   while a [data-header-dark] area (hero, dark cards) is behind them —
+   script.js toggles .is-light on each item. Until the script has run
+   (.is-ready) they are light, as the page opens on the dark hero. */
+
+.header {
+  position: fixed;
+  top: 10px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  color: var(--color-brown);
+}
+
+.header__logo,
+.header__menu a {
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.header__logo.is-light,
+.header__menu a.is-light,
+.header:not(.is-ready) .header__logo,
+.header:not(.is-ready) .header__menu a {
+  color: var(--color-light);
+}
+
+/* Mobile / tablet: 64px bar — logo left, "Menu" button right */
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-h);
+  border-bottom: 1px solid var(--color-beige);
+}
+
+/* Logo — 22px; leads to this same page */
+.header__logo {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.header__nav {
+  display: none;
+}
+
+/* Menu — 16px */
+.header__menu {
+  display: flex;
+  justify-content: space-between;
+  width: 488px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.header a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* "Menu" button: dark plate with light text; inverted over dark areas */
+.header__burger {
+  align-self: stretch;
+  width: 91px;
+  padding: 0;
+  border: 0;
+  background: var(--color-brown);
+  color: var(--color-light);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.1;
+  cursor: pointer;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.header__burger.is-light,
+.header:not(.is-ready) .header__burger {
+  background: var(--color-light);
+  color: var(--color-brown);
+}
+
+/* All text links: smooth fade to 50% on hover */
+.header a:hover,
+.header a:focus-visible {
+  opacity: 0.5;
+}
+
+.header__burger:hover,
+.header__burger:focus-visible {
+  color: rgb(237 236 232 / 0.5);
+}
+
+.header__burger.is-light:hover,
+.header__burger.is-light:focus-visible {
+  color: rgb(34 17 9 / 0.5);
+}
+
+/* ---------- Mobile / tablet menu ---------- */
+
+/* Full-screen panel under the header; parked off-screen to the right */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  overflow-y: auto;
+  background: var(--color-light);
+  color: var(--color-brown);
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0.5s;
+}
+
+.mobile-menu.is-open {
+  transform: none;
+  visibility: visible;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* The header stays on top of the panel, so the button can close it.
+   --scrollbar-width (set in JS) stops the page shifting when scrolling is locked */
+.menu-open {
+  overflow: hidden;
+  padding-right: var(--scrollbar-width, 0px);
+}
+
+.menu-open .header {
+  right: var(--scrollbar-width, 0px);
+}
+
+/* Over the light panel the header is always in its dark state */
+.menu-open .header .header__logo {
+  color: var(--color-brown);
+}
+
+.menu-open .header .header__burger {
+  background: var(--color-brown);
+  color: var(--color-light);
+}
+
+.mobile-menu__inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+  min-height: 100%;
+  padding: calc(10px + var(--header-h) + 40px) 0 40px;   /* header offset + bar + air */
+}
+
+/* Neue Haas Grotesk — 22px (mobile) / 30px (tablet) */
+.mobile-menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-text);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.mobile-menu__contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.mobile-menu a {
+  align-self: flex-start;
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-menu a:hover,
+.mobile-menu a:focus-visible {
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu,
+  .mobile-menu.is-open {
+    transition: none;
+  }
+}
+
+/* ---------- Hero (mobile / tablet first: stacked flow) ---------- */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100svh;
+  padding: calc(var(--header-h) + 32px) var(--container-pad) 0;
+  container-type: inline-size;     /* for the cqw-based "Wilkinson" size */
+  background: var(--color-dark);
+  color: var(--color-light);
+}
+
+/* 25% taller than the hero (overflowing upwards) so the parallax shift
+   in script.js never uncovers an edge */
+.hero__bg {
+  position: absolute;
+  top: -25%;
+  left: 0;
+  z-index: -2;
+  width: 100%;
+  height: 125%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--hero-overlay);
+}
+
+.hero__inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Text 1 / H5 — 14px, line-height 1.2 */
+.hero__stats {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.hero__title {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(40px, 11vw, 110px);
+  line-height: 0.85;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.hero__title-line--right {
+  text-align: right;
+}
+
+.hero__title-line--center {
+  text-align: center;
+}
+
+.hero__text {
+  max-width: 217px;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.hero__star {
+  align-self: flex-end;
+  width: clamp(120px, 36vw, 328.551px);
+  height: auto;
+  margin-top: -64px;
+}
+
+/* The word is ~4.8× its font size wide, so the size is derived from the
+   hero's content width (cqw — the hero is a size container) to keep it uncropped */
+.hero__brand {
+  margin: 24px 0 0;
+  font-family: var(--font-display);
+  font-size: calc(100cqw / 4.85);
+  line-height: 0.8;
+  letter-spacing: -0.01em;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ---------- Hero intro animation ----------
+   Everything except the background photo starts transparent and fades in
+   top to bottom: stats → title lines → text → finally, together,
+   the big "Wilkinson" (slides up) and the star (turns slightly).
+   `translate` / `rotate` are used so they add to the desktop transforms. */
+
+@keyframes hero-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes hero-brand {
+  from { opacity: 0; translate: 0 40%; }
+  to   { opacity: 1; translate: 0 0; }
+}
+
+@keyframes hero-star {
+  from { opacity: 0; rotate: -45deg; }
+  to   { opacity: 1; rotate: 0deg; }
+}
+
+.hero__stats,
+.hero__title-line,
+.hero__text {
+  animation: hero-fade 0.9s ease both;
+}
+
+.hero__stats                            { animation-delay: 0.2s; }
+.hero__title-line:nth-child(1)          { animation-delay: 0.5s; }
+.hero__title-line:nth-child(2)          { animation-delay: 0.75s; }
+.hero__title-line:nth-child(3)          { animation-delay: 1s; }
+.hero__text                             { animation-delay: 1.3s; }
+
+.hero__brand {
+  animation: hero-brand 1.4s cubic-bezier(0.22, 1, 0.36, 1) 1.7s both;
+}
+
+.hero__star {
+  animation: hero-star 1.4s cubic-bezier(0.22, 1, 0.36, 1) 1.7s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__stats,
+  .hero__title-line,
+  .hero__text,
+  .hero__brand,
+  .hero__star {
+    animation: none;
+  }
+}
+
+/* ---------- Scroll reveal ----------
+   script.js adds .is-visible when an element scrolls into view.
+   Hidden start states apply only with JS on and motion allowed. */
+
+@keyframes reveal-up {
+  from { opacity: 0; translate: 0 100%; }
+  to   { opacity: 1; translate: 0 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Title-wrap: caption, then title — the same fade as the hero */
+  .js .section-head__caption,
+  .js .section-head__title,
+  .js .architecture__grid > li {
+    opacity: 0;
+  }
+
+  .js .section-head.is-visible .section-head__caption {
+    animation: hero-fade 0.9s ease 0.1s both;
+  }
+
+  .js .section-head.is-visible .section-head__title {
+    animation: hero-fade 0.9s ease 0.35s both;
+  }
+
+  /* Architecture, services and News cards: the same fade, in random order
+     (delays set in JS) */
+  .js .services__grid > li,
+  .js .news__list > li {
+    opacity: 0;
+  }
+
+  .js .architecture__grid.is-visible > li,
+  .js .services__grid.is-visible > li,
+  .js .news__list.is-visible > li,
+  .js .architecture__grid > li.is-visible {   /* mobile: each card on its own */
+    animation: hero-fade 0.9s ease var(--reveal-delay, 0s) both;
+  }
+
+  /* Thinking / About paragraphs and photos, Career dropdowns: the hero fade.
+     The second photo in a row and each next vacancy come a little later */
+  .js .section-text,
+  .js .thinking__img,
+  .js .about__photo,
+  .js .about__round,
+  .js .job {
+    opacity: 0;
+  }
+
+  .js .section-text.is-visible,
+  .js .thinking__img.is-visible,
+  .js .about__photo.is-visible,
+  .js .about__round.is-visible,
+  .js .job.is-visible {
+    animation: hero-fade 0.9s ease var(--reveal-delay, 0.1s) both;
+  }
+
+  .js .thinking__img--large,
+  .js .about__round,
+  .js .job:nth-child(2) {
+    --reveal-delay: 0.3s;
+  }
+
+  .js .job:nth-child(3) {
+    --reveal-delay: 0.5s;
+  }
+
+  /* Buttons slide up from below, like the big "Wilkinson" on the hero */
+  .js .link-button {
+    opacity: 0;
+    translate: 0 100%;
+  }
+
+  .js .link-button.is-visible {
+    animation: reveal-up 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+  }
+}
+
+/* ---------- Section heading: caption + H3 title ---------- */
+
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* H2 token — 14px (mobile) / 20px Medium */
+.section-head__caption {
+  margin: 0;
+  color: var(--color-brown-soft);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+/* H3 token — Soligant 24px (mobile) / 34px (tablet) / 47px (desktop) */
+.section-head__title {
+  margin: 0;
+  color: var(--color-brown-soft);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+/* ---------- Architecture ---------- */
+
+.architecture__content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.architecture__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.project-card__img {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: #d9d7d1;
+}
+
+.project-card__img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.project-card__info {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.project-card__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.project-card__name {
+  font-weight: 600;                /* H5 */
+}
+
+.project-card__place {
+  font-weight: 500;                /* Text 1 */
+}
+
+.project-card__arrow {
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+  margin: -0.5px;                  /* 24px slot in Figma, stroke overflows */
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-card__img img,
+.project-card:focus-visible .project-card__img img {
+  transform: scale(1.04);
+}
+
+.project-card:hover .project-card__arrow,
+.project-card:focus-visible .project-card__arrow {
+  transform: rotate(45deg);
+}
+
+/* ---------- Thinking ---------- */
+
+.thinking__content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.thinking__body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Text 1 — 12px (mobile) / 14px. Paragraphs merge into one block from tablet up */
+.section-text {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.section-text p {
+  margin: 0;
+}
+
+.section-text p + p {
+  margin-top: 1.2em;               /* empty line between paragraphs */
+}
+
+.thinking__images {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.thinking__img {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+
+.thinking__img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Photo is cropped so a strip of sky colour shows on top, as in Figma */
+.thinking__img--small {
+  background: #90c6e6;
+}
+
+.thinking__img--small img {
+  top: 3.54%;
+  left: -30.02%;
+  width: 160.04%;
+  max-width: none;
+}
+
+/* ---------- About ---------- */
+
+.about__content {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+.about__body {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+.about__photo {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 280 / 215;
+}
+
+.about__photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 39% 50%;
+}
+
+/* 217px box: 214px circle inset by 1px, 10px dots in the corners */
+.about__round {
+  position: relative;
+  display: none;
+  flex: none;
+  width: 217px;
+  aspect-ratio: 1;
+}
+
+.about__round-img {
+  position: absolute;
+  top: 0.4608%;
+  left: 0.4608%;
+  width: 98.6175%;                 /* 214 / 217 */
+  height: 98.6175%;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.about__round-img img {
+  position: absolute;
+  top: 0;
+  left: -66.65%;
+  width: 185.46%;
+  height: 115.89%;
+  max-width: none;
+}
+
+.about__dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+}
+
+.about__dot--tl { top: 0; left: 0; }
+.about__dot--tr { top: 0; right: 0; }
+.about__dot--bl { bottom: 0; left: 0; }
+.about__dot--br { bottom: 0; right: 0; }
+
+/* ---------- Slider (mobile only): horizontal scroll that bleeds to the screen edges ---------- */
+
+/* Mobile + tablet: smooth horizontal scroll (swipe / trackpad) with snapping */
+.slider {
+  display: flex;
+  gap: 10px;
+  margin: 0 calc(-1 * var(--container-pad));
+  padding: 0 var(--container-pad);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--container-pad);
+  scrollbar-width: none;
+  list-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.slider::-webkit-scrollbar {
+  display: none;
+}
+
+.slider > * {
+  flex: none;
+  scroll-snap-align: start;
+}
+
+/* Mouse dragging (script.js): a hand over a scrollable slider; while dragging
+   the snapping and smooth scrolling are off so the cards follow the cursor */
+.slider.is-draggable {
+  cursor: grab;
+}
+
+.slider.is-dragging {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+  user-select: none;
+}
+
+.slider.is-dragging,
+.slider.is-dragging * {
+  cursor: grabbing;
+}
+
+/* ---------- Our services ---------- */
+
+.services__content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* H4 title + number on top, Text 1 description pinned to the bottom */
+.service-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto 1fr;
+  column-gap: 20px;
+  width: 266px;
+  aspect-ratio: 1;
+  padding: 20px;
+  background: var(--color-brown);
+  color: var(--color-light);
+}
+
+.service-card__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.service-card__num {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.service-card__text {
+  grid-column: 1 / -1;
+  align-self: end;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.service-card__text b {
+  font-weight: 700;
+}
+
+.services__star {
+  display: none;
+}
+
+/* The star turns in like the hero star once the grid scrolls into view,
+   a little after its dashed circle has faded in with the cards */
+@media (prefers-reduced-motion: no-preference) {
+  .js .services__star img {
+    opacity: 0;
+  }
+
+  .js .services__grid.is-visible .services__star img {
+    animation: hero-star 1.4s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--reveal-delay, 0s) + 0.3s) both;
+  }
+}
+
+/* ---------- News ---------- */
+
+.news__content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Mobile card: 280 × 425, 240px photo on top, text below */
+.news__item {
+  width: 280px;
+}
+
+.news-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  min-height: 425px;
+  padding: 20px 20px 35px;
+  background: var(--color-brown);
+  color: var(--color-light);
+  text-decoration: none;
+}
+
+.news-card__img {
+  position: relative;
+  flex: none;
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+
+.news-card__img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.news-card:hover .news-card__img img,
+.news-card:focus-visible .news-card__img img {
+  transform: scale(1.04);
+}
+
+.news-card__text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Text 1 — 12px (mobile) / 14px, 60% */
+.news-card__date,
+.news-card__desc {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  opacity: 0.6;
+}
+
+/* Accents — 14px (mobile) / 18px */
+.news-card__title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Career ---------- */
+
+.career__content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Columns shared by the job header and its body:
+   mobile — number | place / title | icon */
+.career__list {
+  --job-cols: 24px minmax(0, 1fr) 30px;
+  border-bottom: 1px solid var(--color-brown);
+}
+
+.job {
+  padding: 20px 0;
+  border-top: 1px solid var(--color-brown);
+}
+
+.job__head {
+  display: grid;
+  grid-template-columns: var(--job-cols);
+  grid-template-areas:
+    "num   place icon"
+    ".     title icon";
+  align-items: start;
+  list-style: none;
+  cursor: pointer;
+}
+
+.job__head::-webkit-details-marker {
+  display: none;
+}
+
+.job__num,
+.job__place,
+.job__desc,
+.job__items {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.job__num {
+  grid-area: num;
+  opacity: 0.6;
+}
+
+.job__place {
+  grid-area: place;
+  opacity: 0.7;
+}
+
+.job__title-wrap {
+  grid-area: title;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 13px;
+}
+
+.job__title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.job__desc {
+  max-width: 216px;
+  opacity: 0.7;
+}
+
+.job__icon {
+  grid-area: icon;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--color-brown);
+  border-radius: 50%;
+}
+
+.job__icon img {
+  width: 11px;
+  height: 11px;
+  transition: transform 0.3s ease;
+}
+
+/* Open job: the plus turns into a cross (and back as soon as closing starts) */
+.job[open]:not(.is-closing) .job__icon img {
+  transform: rotate(45deg);
+}
+
+.job__head:focus-visible {
+  outline: 1px solid var(--color-brown);
+  outline-offset: 4px;
+}
+
+.job__body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 0 0 24px;
+}
+
+/* H5 — 14px Medium */
+.job__col-title {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.job__items {
+  margin: 0;
+  padding: 0;
+  list-style: decimal inside;
+  opacity: 0.7;
+}
+
+.job__items li + li {
+  margin-top: 10px;
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
+  margin-top: var(--section-gap);
+  padding-bottom: 40px;
+}
+
+/* Beige separators above the content and above the bottom links */
+.footer__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding-top: 30px;
+  border-top: 1px solid var(--color-beige);
+}
+
+.footer__main,
+/* Mobile / tablet: the two menu columns read as one list (same gap as the items) */
+.footer__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.footer__about {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Logo — 15px (mobile) / 22px */
+.footer__logo {
+  color: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.1;
+  text-decoration: none;
+}
+
+.footer__text {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* Menu — 12px (mobile) / 16px */
+.footer__menu,
+.footer__contacts,
+.footer__bottom {
+  font-size: 12px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1.1;
+}
+
+.footer__menu,
+.footer__contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer__contacts p {
+  margin: 0;
+}
+
+.footer__contacts span {
+  display: block;
+  color: rgb(34 17 9 / 0.5);
+}
+
+.footer a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.footer__menu a:hover,
+.footer__contacts a:hover,
+.footer__logo:hover {
+  opacity: 0.6;
+}
+
+.footer__bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding-top: 30px;
+  border-top: 1px solid var(--color-beige);
+}
+
+.footer__bottom a {
+  opacity: 0.5;
+}
+
+.footer__bottom a:hover {
+  opacity: 1;
+}
+
+/* ---------- Button wrap + link button ("Кнопка") ---------- */
+
+/* Mobile: button spans the full width */
+.button-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.link-button {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  color: var(--color-brown);
+  text-decoration: none;
+}
+
+/* Buttons token — 14px Bold uppercase */
+.link-button__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.link-button__row img {
+  width: 10.8536px;
+  height: 10.8536px;
+  transition: transform 0.3s ease;
+}
+
+.link-button__line {
+  width: 100%;
+  height: 1px;
+}
+
+.link-button:hover .link-button__row img,
+.link-button:focus-visible .link-button__row img {
+  transform: translate(2px, -2px);
+}
+
+/* ---------- Tablet ---------- */
+
+@media (min-width: 768px) {
+  .section-head__caption {
+    color: var(--color-brown);
+    font-size: 20px;
+  }
+
+  .section-head__title {
+    font-size: 34px;
+    text-indent: 51%;        /* 306 / 600 */
+  }
+
+  .architecture__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Text, the large photo and the button start at the right column: 305 / 600 */
+  /* paragraph-wrap: 213px column starting at the right column (305 / 600) */
+  .section-text {
+    width: 213px;
+    max-width: 49.1667%;
+    margin-left: 50.8333%;
+    font-size: 14px;
+  }
+
+  .section-text p {
+    display: inline;
+  }
+
+  .thinking__images {
+    align-items: center;
+    gap: 0;
+  }
+
+  .thinking__img {
+    flex: none;
+  }
+
+  .thinking__img--small {
+    width: 33.6667%;         /* 202 / 600 */
+  }
+
+  .thinking__img--large {
+    width: 49.1667%;         /* 295 / 600 */
+    aspect-ratio: 295 / 202;
+  }
+
+  /* Text in the right column; photo 294 / 600 + 10px gap + round photo */
+  .about__content,
+  .about__body {
+    gap: 31px;
+  }
+
+  .about__br {
+    display: none;
+  }
+
+  /* Text row on top, then photo (294 / 600) + 10px gap + round photo */
+  .about__body {
+    display: grid;
+    grid-template-columns: 49% minmax(0, 1fr);
+    align-items: start;
+    column-gap: 10px;
+  }
+
+  .about__text {
+    grid-column: 1 / -1;
+  }
+
+  .about__photo {
+    aspect-ratio: 294 / 215;
+  }
+
+  .about__photo img {
+    object-position: 50% 50%;
+  }
+
+  .about__round {
+    display: block;
+  }
+
+  /* Slider cards keep the tablet mock-up sizes: News 600 × 237 rows
+     (197px photo + text up to 333px), services 295 × 295 squares */
+  .news__item {
+    width: 600px;
+  }
+
+  .news-card {
+    flex-direction: row;
+    align-items: flex-start;   /* keeps the photo square */
+    gap: 20px;
+    min-height: 237px;
+    padding: 20px 30px 20px 20px;
+  }
+
+  .news-card__img {
+    width: 197px;
+  }
+
+  .news-card__text {
+    max-width: 333px;
+  }
+
+  .news-card__date,
+  .news-card__desc {
+    font-size: 14px;
+  }
+
+  .news-card__title {
+    font-size: 18px;
+  }
+
+  .service-card {
+    width: 295px;
+  }
+
+  .service-card__title {
+    font-size: 22px;
+  }
+
+  .service-card__num,
+  .service-card__text {
+    font-size: 14px;
+  }
+
+  .service-card__text b {
+    font-weight: 600;
+  }
+
+  /* number 51 | title 254 | place (from 305 / 600) | icon 30 */
+  .career__list {
+    --job-cols: 8.5% 42.3333% minmax(0, 1fr) 30px;
+  }
+
+  .job__head {
+    grid-template-areas: "num title place icon";
+  }
+
+  .job__num,
+  .job__place,
+  .job__desc,
+  .job__items {
+    font-size: 14px;
+  }
+
+  .job__num,
+  .job__place {
+    margin-top: 11px;        /* aligned with the 22px title */
+  }
+
+  .mobile-menu__list {
+    gap: 16px;
+    font-size: 30px;
+  }
+
+  .mobile-menu__contacts {
+    font-size: 16px;
+  }
+
+  .footer__inner {
+    gap: 40px;
+    padding-top: 40px;
+  }
+
+  .footer__main {
+    gap: 30px;
+  }
+
+  .footer__about {
+    gap: 15px;
+  }
+
+  .footer__logo {
+    font-size: 22px;
+  }
+
+  .footer__text {
+    font-size: 14px;
+  }
+
+  .footer__menu,
+  .footer__contacts,
+  .footer__bottom {
+    font-size: 16px;
+  }
+
+  .footer__bottom {
+    gap: 20px;
+    padding-top: 40px;
+  }
+
+  .job__title-wrap {
+    gap: 7px;
+    margin-top: 0;
+  }
+
+  .job__title {
+    padding-right: 20px;
+    font-size: 22px;
+    line-height: 1.2;
+    letter-spacing: 0;
+  }
+
+  /* Responsibilities under the title, Requirements under the place */
+  .job__body {
+    display: grid;
+    grid-template-columns: var(--job-cols);
+    gap: 0;
+    padding-left: 0;
+  }
+
+  .job__col {
+    max-width: 217px;
+  }
+
+  .job__col:first-child {
+    grid-column: 2;
+  }
+
+  .job__col:last-child {
+    grid-column: 3;
+  }
+
+  .button-wrap {
+    padding-left: 50.8333%;
+  }
+
+  .link-button {
+    width: 217px;
+  }
+}
+
+/* ---------- Desktop: Figma composition ---------- */
+
+@media (min-width: 1024px) {
+  /* Desktop header: logo + 488px menu, line under it */
+  .header__inner {
+    align-items: flex-start;
+    height: auto;
+    padding-bottom: 10.5px;
+  }
+
+  .header__nav {
+    display: block;
+  }
+
+  .header__burger,
+  .mobile-menu {
+    display: none;
+  }
+
+  .hero {
+    display: block;
+    height: 50vw;            /* 800 / 1600 */
+    min-height: 512px;
+    padding: 0;
+  }
+
+  .hero__inner {
+    display: block;
+    width: min(1200px, 100% - 2 * var(--container-pad));
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  .hero__stats,
+  .hero__title,
+  .hero__text,
+  .hero__star {
+    position: absolute;
+  }
+
+  .hero__stats {
+    top: 6.5vw;              /* 104px */
+    left: 0;
+  }
+
+  .hero__title {
+    top: 6.5vw;
+    left: 0;
+    right: 0;
+    font-size: 6.875vw;      /* 110px */
+  }
+
+  .hero__text {
+    top: 24.75vw;            /* 396px */
+    left: 12.6875vw;         /* 203px from the content edge */
+    width: 217px;
+  }
+
+  .hero__star {
+    top: 17.5625vw;          /* 281px */
+    right: 0;
+    width: 20.534vw;         /* 328.551px */
+    margin: 0;
+  }
+
+  .hero__brand {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    margin: 0;
+    transform: translateX(-50%);
+    font-size: 15.585vw;     /* 249.368px */
+  }
+
+  /* Caption left, title in a 998/1200 column with a 381px first-line indent */
+  .section-head {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .section-head__title {
+    width: 83.1667%;         /* 998 / 1200 */
+    color: var(--color-brown);
+    font-size: clamp(36px, 2.9375vw, 47px);
+    text-indent: 38.18%;     /* 381 / 998 */
+  }
+
+  .thinking__content {
+    gap: 30px;
+  }
+
+  /* 610 / 1200 — same right column as on tablet */
+  /* paragraph-wrap: 335px column starting at 610 / 1200 */
+  .section-text {
+    width: 335px;
+  }
+
+  .thinking__images {
+    align-items: flex-start;
+  }
+
+  .thinking__img--small {
+    width: 16.8333%;         /* 202 / 1200 */
+  }
+
+  .thinking__img--large {
+    width: 49.1667%;         /* 590 / 1200 */
+    aspect-ratio: 590 / 423;
+  }
+
+  /* 572px photo + 38px gap + 335px text, round photo pinned right */
+  .about__content {
+    gap: 30px;
+  }
+
+  /* Photo in the left column (572 / 610), text in the same 335px column
+     as Thinking (from 610 / 1200), round photo pinned right */
+  .about__body {
+    grid-template-columns: 50.8333% minmax(0, 335px) minmax(20px, 1fr) 18.0833%;
+    column-gap: 0;
+  }
+
+  .about__photo {
+    grid-row: 1;
+    grid-column: 1;
+    width: 93.7705%;         /* 572 / 610 */
+    aspect-ratio: 572 / 514;
+  }
+
+  .about__photo img {
+    object-position: 46% 50%;
+  }
+
+  .about__text {
+    grid-row: 1;
+    grid-column: 2;
+    width: auto;
+    max-width: none;
+    margin-left: 0;
+  }
+
+  .about__round {
+    grid-row: 1;
+    grid-column: 4;
+    width: 100%;             /* 217 / 1200 */
+  }
+
+  .services__content,
+  .career__content,
+  .news__content {
+    gap: 30px;
+  }
+
+  /* Footer: logo | menu | menu | contacts; bottom links share the same columns
+     (Cookie notifications sits under the contacts) */
+  .footer__inner {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) max-content;
+    gap: 20px;
+    padding-top: 20px;
+  }
+
+  .footer__main,
+  .footer__bottom {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
+    column-gap: normal;      /* use the parent's gaps, so both rows line up */
+    align-items: start;
+  }
+
+  .footer__nav {
+    display: contents;
+  }
+
+  .footer__text {
+    max-width: 183px;
+  }
+
+  .footer__bottom {
+    padding-top: 20px;
+  }
+
+  .footer__bottom a:last-child {
+    grid-column: 4;
+  }
+
+  /* Title column is 793 / 1200 here (381px first-line indent) */
+  .news .section-head__title {
+    width: 66.0833%;
+    text-indent: 48.0454%;   /* 381 / 793 */
+  }
+
+  /* Sliders end at desktop: News and services become grids */
+  .slider {
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .news__item,
+  .service-card {
+    width: auto;
+  }
+
+  /* 2 × 2 square cards (4 columns from 1280px) */
+  .services__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Large card spans both rows: photo fills the height, text below */
+  .news__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(237px, auto));
+    gap: 20px;
+  }
+
+  .news__item--large {
+    grid-row: 1 / span 2;
+  }
+
+  .news__item--large .news-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+  }
+
+  .news__item--large .news-card__img {
+    flex: 1;
+    width: auto;
+    aspect-ratio: auto;
+  }
+
+  .news__item--large .news-card__text {
+    max-width: 420px;
+  }
+
+  /* List starts at 203 / 1200; title at 610, place at 915 (of the content) */
+  .career__list {
+    --job-cols: 40.8225% 30.5918% minmax(0, 1fr) 30px;
+    margin-left: 16.9167%;
+  }
+
+  /* 3 × 202px cards + 66px gap + 488px feature card spanning both rows.
+     The 4th column is 534px: 46px extra gap (on top of 20px) + 488px card. */
+  .architecture__grid {
+    grid-template-columns: repeat(3, minmax(0, 202fr)) minmax(0, 534fr);
+  }
+
+  .architecture__feature {
+    grid-column: 4;
+    grid-row: 1 / span 2;
+    padding-left: 8.6%;      /* 46 / 534 */
+  }
+
+  .project-card--large .project-card__img {
+    flex: 1;
+    aspect-ratio: auto;
+  }
+}
+
+/* 4 columns: card 1, dashed star circle, cards 2–3; card 4 under card 2.
+   Starts at 1280px: below that a 1/4 column is too narrow for the card text. */
+@media (min-width: 1280px) {
+  .services__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 17px;
+  }
+
+  .services__star {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    border: 1px dashed var(--color-brown);
+    border-radius: 50%;
+  }
+
+  .services__star img {
+    width: 47.04%;           /* 135 / 287 */
+    height: auto;
+  }
+
+  .service-card--4 {
+    grid-column: 3;
+  }
+}
+
+/* ---------- Projects page (project.html): Figma "портфолио" ----------
+   Title + beige line, side menu with three dropdown filters, project grid.
+   Mobile 320 / tablet 640 / desktop 1600 frames. */
+
+/* Header bar + 10px offset + 20px air (title at 94px on tablet / mobile) */
+.portfolio {
+  padding-top: calc(10px + var(--header-h) + 20px);
+}
+
+/* Title / line / filters / grid — 31px apart (mobile) */
+.portfolio__content {
+  display: flex;
+  flex-direction: column;
+  gap: 31px;
+}
+
+/* H1 — Soligant 37px (mobile) / 60px (tablet) / 120px in one line (desktop).
+   The beige line under it is its border */
+.portfolio__title {
+  margin: 0;
+  padding-bottom: 31px;
+  border-bottom: 1px solid var(--color-beige);
+  font-family: var(--font-display);
+  font-size: 37px;
+  font-weight: 400;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.portfolio__body {
+  display: flex;
+  flex-direction: column;
+  gap: 31px;
+}
+
+/* ---------- Filters ("Experience / All") ---------- */
+
+/* Accents token — 14px (mobile) / 18px, -2%; one row spread across the width */
+.filters {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.filter {
+  position: relative;
+}
+
+.filter__toggle {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-brown);
+  font: inherit;
+  letter-spacing: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.filter__value {
+  color: rgb(34 17 9 / 0.5);
+}
+
+.filter__toggle:hover,
+.filter__toggle:focus-visible {
+  opacity: 0.5;
+}
+
+/* Mobile / tablet: dropdown panel under its filter */
+.filter__menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 160px;
+  margin: 0;
+  padding: 15px;
+  border: 1px solid var(--color-beige);
+  background: var(--color-light);
+  list-style: none;
+}
+
+.filter:last-child .filter__menu {
+  left: auto;
+  right: 0;
+}
+
+.filter__menu[hidden] {
+  display: none;
+}
+
+/* Menu token — 16px (12px on mobile); the chosen option is full colour */
+.filter__option {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-brown);
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 0;
+  text-align: left;
+  white-space: nowrap;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.filter__option[aria-pressed="true"],
+.filter__option:hover,
+.filter__option:focus-visible {
+  opacity: 1;
+}
+
+/* ---------- Project grid ---------- */
+
+.portfolio__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.portfolio__empty {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  opacity: 0.6;
+}
+
+/* Framed card ("Card"): beige frame, photo inset by --tile-pad,
+   a beige line under the photo and the caption under the line */
+.project-tile {
+  --tile-pad: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--tile-pad) var(--tile-pad) 0;
+  border: 1px solid var(--color-beige);
+  color: inherit;
+  text-decoration: none;
+}
+
+.project-tile__img {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 239 / 260;         /* mobile photo, 1 : 1 from tablet up */
+  background: #d9d7d1;
+}
+
+.project-tile__img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+/* Marlow: Figma crops tighter than "cover" */
+.project-tile__img--zoom img {
+  top: -39.32%;
+  left: -66.43%;
+  width: 232.86%;
+  height: 146.31%;
+  max-width: none;
+}
+
+/* Text 1 — 12px (mobile) / 14px; place at 50% */
+.project-tile__text {
+  display: flex;
+  flex-direction: column;
+  margin: 20px calc(-1 * var(--tile-pad)) 0;
+  padding: 20px;
+  border-top: 1px solid var(--color-beige);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.project-tile__place {
+  color: rgb(34 17 9 / 0.5);
+}
+
+.project-tile:hover .project-tile__img img,
+.project-tile:focus-visible .project-tile__img img {
+  transform: scale(1.04);
+}
+
+/* Cards fade in one by one as they scroll in; the same fade replays
+   when a filter brings a hidden card back */
+@media (prefers-reduced-motion: no-preference) {
+  .js .portfolio__item {
+    opacity: 0;
+  }
+
+  .js .portfolio__item.is-visible {
+    animation: hero-fade 0.9s ease var(--reveal-delay, 0s) both;
+  }
+}
+
+/* The footer line follows the grid right away (10px mobile / 42px tablet / 0 desktop) */
+.portfolio + .footer {
+  margin-top: 10px;
+}
+
+/* ---------- Tablet ---------- */
+
+@media (min-width: 768px) {
+  .portfolio__content,
+  .portfolio__body {
+    gap: 34px;
+  }
+
+  .portfolio__title {
+    padding-bottom: 34px;
+    font-size: 60px;
+    line-height: 0.85;
+    letter-spacing: -0.01em;
+  }
+
+  .filters {
+    justify-content: flex-start;
+    gap: 28px;
+    font-size: 18px;
+  }
+
+  .filter__option {
+    font-size: 16px;
+  }
+
+  .portfolio__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px 20px;
+  }
+
+  .project-tile {
+    --tile-pad: 30px;
+  }
+
+  .project-tile__img {
+    aspect-ratio: 1;
+  }
+
+  .project-tile__text {
+    margin-top: 30px;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  /* Large and medium cards: photo + caption, no frame, across both columns */
+  .portfolio__item--large,
+  .portfolio__item--medium {
+    grid-column: 1 / -1;
+  }
+
+  .portfolio__item--large .project-tile,
+  .portfolio__item--medium .project-tile {
+    padding: 0;
+    border: 0;
+  }
+
+  .portfolio__item--large .project-tile__text,
+  .portfolio__item--medium .project-tile__text {
+    margin: 20px 0 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .portfolio + .footer {
+    margin-top: 42px;
+  }
+}
+
+/* Tablet order from Figma: pairs swapped, Marlow moved down before the last row */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .portfolio__grid:not(.is-filtered) > :nth-child(1)  { order: 1; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(3)  { order: 2; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(2)  { order: 3; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(5)  { order: 4; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(4)  { order: 5; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(6)  { order: 6; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(9)  { order: 7; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(8)  { order: 8; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(11) { order: 9; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(10) { order: 10; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(7)  { order: 11; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(14) { order: 12; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(12) { order: 13; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(13) { order: 14; }
+
+  .portfolio__grid.is-filtered {
+    grid-auto-flow: dense;
+  }
+}
+
+/* ---------- Desktop ---------- */
+
+@media (min-width: 1024px) {
+  .portfolio {
+    padding-top: 84px;
+  }
+
+  .portfolio__content {
+    gap: 9px;
+  }
+
+  /* 120px across the 1200px content: scaled down with narrower screens */
+  .portfolio__title {
+    padding-bottom: 9px;
+    font-size: min(120px, (100vw - 2 * var(--container-pad)) / 10);
+    line-height: 1;
+    letter-spacing: 0;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  /* Sidebar 183 / 1200 with a full-height line on its right, grid 997 / 1200 */
+  .portfolio__body {
+    display: grid;
+    grid-template-columns: minmax(0, 183fr) minmax(0, 997fr);
+    column-gap: 20px;
+  }
+
+  .portfolio__sidebar {
+    border-right: 1px solid var(--color-beige);
+  }
+
+  /* Stacked, 50px from the top, 30px apart; stays in view while scrolling */
+  .filters {
+    position: sticky;
+    top: 45px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 50px 20px 0 0;
+  }
+
+  /* Opens in place, pushing the next filters down */
+  .filter__menu {
+    position: static;
+    min-width: 0;
+    margin-top: 15px;
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+
+  /* 100px under the last row so the sidebar line runs past it */
+  .portfolio__main {
+    padding: 20px 0 100px;
+  }
+
+  /* 4 columns, 100px between rows */
+  .portfolio__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 100px 20px;
+    align-items: start;
+  }
+
+  /* Framed card: 203 of the 234px column */
+  .portfolio__item {
+    width: 86.66%;
+  }
+
+  .portfolio__item--large {
+    grid-column: span 2;
+    width: auto;
+  }
+
+  /* 325px photo: overhangs into the empty column next to it */
+  .portfolio__item--medium {
+    grid-column: auto;
+    width: 138.74%;
+  }
+
+  /* Figma placement (rows 1–5) */
+  .portfolio__grid:not(.is-filtered) > :nth-child(1)  { grid-area: 1 / 1 / auto / span 2; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(2)  { grid-area: 1 / 3; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(3)  { grid-area: 1 / 4; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(4)  { grid-area: 2 / 1; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(5)  { grid-area: 2 / 2; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(6)  { grid-area: 2 / 3; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(7)  { grid-area: 3 / 1 / auto / span 2; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(8)  { grid-area: 3 / 3; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(9)  { grid-area: 3 / 4; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(10) { grid-area: 4 / 1; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(11) { grid-area: 4 / 3; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(12) { grid-area: 4 / 4; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(13) { grid-area: 5 / 2; }
+  .portfolio__grid:not(.is-filtered) > :nth-child(14) { grid-area: 5 / 4; }
+
+  /* Filtered: cards just flow; a medium card takes two columns so it can't overlap */
+  .portfolio__grid.is-filtered {
+    grid-auto-flow: dense;
+  }
+
+  .portfolio__grid.is-filtered > .portfolio__item--medium {
+    grid-column: span 2;
+    width: 66.53%;                 /* 325 / 488.5 */
+  }
+
+  .portfolio + .footer {
+    margin-top: 0;
+  }
+}
+
+@media (min-width: 1600px) {
+  .hero {
+    height: 800px;
+  }
+
+  .hero__stats,
+  .hero__title {
+    top: 104px;
+  }
+
+  .hero__title {
+    font-size: 110px;
+  }
+
+  .hero__text {
+    top: 396px;
+    left: 203px;
+  }
+
+  .hero__star {
+    top: 281px;
+    width: 328.551px;
+  }
+
+  .hero__brand {
+    font-size: 249.368px;
+  }
+}
+
+/* ---------- Contacts page (contacts.html): Figma "контакты" ----------
+   Running "✶ CONTACTS" line, beige line, three office cards.
+   Mobile 320 / tablet 640 / desktop 1600 frames. */
+
+/* Read by screen readers, not shown */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Header bar + 10px offset + 20px air, as on the Projects page */
+.contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding-top: calc(10px + var(--header-h) + 20px);
+}
+
+.contacts__title {
+  margin: 0;
+  font-weight: 400;
+}
+
+/* ---------- Marquee ---------- */
+
+.marquee {
+  display: block;
+  overflow: hidden;
+}
+
+/* Two identical groups: moving by one group's width (-50%) loops seamlessly */
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* H1 — Soligant 37px (mobile) / 60px (tablet) / 110px (desktop), stars 50 / 60 / 90 */
+.marquee__group {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-right: 20px;
+  color: var(--color-brown-soft);
+  font-family: var(--font-display);
+  font-size: 37px;
+  line-height: 0.9;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.marquee__star {
+  flex: none;
+  width: 50px;
+  height: 50px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation: none;
+  }
+}
+
+/* ---------- Office cards ---------- */
+
+/* Beige line above the cards (mobile / tablet) */
+.offices {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 0;
+  padding: 30px 0 0;
+  border-top: 1px solid var(--color-beige);
+  list-style: none;
+}
+
+.office {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  color: var(--color-brown-soft);
+}
+
+.office__info {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Caption 14px + H5 address (Bold on mobile) */
+.office__head {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 200px;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.office__city {
+  margin: 0;
+  font-size: inherit;
+  font-weight: 500;
+}
+
+.office__address {
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* Mobile: phone / e-mail left, clock right, pulled 49px up beside the address */
+.office__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: -49px;
+}
+
+/* Text 1 — 12px (mobile) / 14px */
+.office__contacts {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.office__contacts a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.office__contacts a:hover,
+.office__contacts a:focus-visible {
+  opacity: 0.6;
+}
+
+.office__img {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: #d9d7d1;
+}
+
+.office__img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* City clock ("время города"): 97px box with an arc, a dashed dial and the time */
+.clock {
+  position: relative;
+  flex: none;
+  order: 1;                        /* right of the contacts on mobile */
+  width: 97px;
+  height: 97px;
+  color: var(--color-beige);
+}
+
+.clock__arc {
+  position: absolute;
+  top: 0;
+}
+
+.clock__dial {
+  position: absolute;
+  top: 13.86px;
+  left: 13.87px;
+}
+
+.clock__time {
+  position: absolute;
+  top: 31.69px;
+  left: 30.7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 36px;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* Cards fade in as they scroll in, like the rest of the site */
+@media (prefers-reduced-motion: no-preference) {
+  .js .office {
+    opacity: 0;
+  }
+
+  .js .office.is-visible {
+    animation: hero-fade 0.9s ease 0.1s both;
+  }
+}
+
+/* The footer line comes 30px (mobile) / 42px (tablet) / 0 (desktop) after the cards */
+.contacts + .footer {
+  margin-top: 30px;
+}
+
+/* ---------- Tablet ---------- */
+
+@media (min-width: 768px) {
+  .contacts {
+    gap: 42px;
+  }
+
+  .marquee__group {
+    font-size: 60px;
+    line-height: 0.85;
+    letter-spacing: -0.01em;
+  }
+
+  .marquee__star {
+    width: 60px;
+    height: 60px;
+  }
+
+  .offices {
+    gap: 30px;
+    padding-top: 42px;
+  }
+
+  .office {
+    gap: 24px;
+  }
+
+  /* City | address and clock | contacts: right column from 305 / 600 */
+  .office__info {
+    --office-col: 50.8333%;
+    gap: 20px;
+  }
+
+  .office__head,
+  .office__foot {
+    display: grid;
+    grid-template-columns: var(--office-col) minmax(0, 200px);
+    gap: 0;
+    width: auto;
+  }
+
+  .office__city {
+    font-size: 22px;
+  }
+
+  .office__address {
+    font-weight: 600;
+  }
+
+  .office__foot {
+    align-items: end;
+    justify-content: start;
+    margin-top: 0;
+  }
+
+  .clock {
+    order: 0;
+  }
+
+  .clock__time,
+  .office__contacts {
+    font-size: 14px;
+  }
+
+  .office__img {
+    aspect-ratio: 2;                 /* 600 × 300 */
+  }
+
+  .contacts + .footer {
+    margin-top: 42px;
+  }
+}
+
+/* ---------- Desktop ---------- */
+
+@media (min-width: 1024px) {
+  .contacts {
+    gap: 0;
+    padding-top: 84px;
+  }
+
+  /* The line runs inside the 1200px content */
+  .contacts__title {
+    width: min(1200px, 100% - 2 * var(--container-pad));
+    margin-inline: auto;
+  }
+
+  .marquee__group {
+    font-size: 110px;
+    letter-spacing: 0;
+  }
+
+  .marquee__star {
+    width: 90px;
+    height: 90px;
+  }
+
+  /* No beige line: each card has its own brown line on top */
+  .offices {
+    gap: 10px;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  /* Text 607 / 1200 on the left, photo 491 × 300 on the right */
+  .office {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 0;
+    border-top: 1px solid rgb(68 57 48 / 0.5);
+  }
+
+  /* Address and contacts start at 407 / 607 */
+  .office__info {
+    --office-col: 67.05%;
+    justify-content: space-between;
+    width: 50.5833%;
+  }
+
+  .office__img {
+    width: 40.9167%;
+    aspect-ratio: 491 / 300;
+  }
+
+  .contacts + .footer {
+    margin-top: 0;
+  }
+}
+
+/* ---------- About page (about.html): Figma "About" ----------
+   Hero: big title, beige star with a dashed circle and a round toned photo,
+   intro paragraph. Mobile 320 / tablet 640 / desktop 1600 frames. */
+
+/* Mobile / tablet: title → star → text in one column; the star overlaps
+   the title and the text a little (negative margins) */
+.about-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--header-h) + 23px) var(--container-pad) 30px;   /* 87px */
+  background: var(--color-brown);
+  color: var(--color-light);
+}
+
+.about-hero__title,
+.about-hero__text {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+}
+
+/* H1 — Soligant 37px (mobile) / 60px (tablet) / 110px (desktop) */
+.about-hero__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 37px;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+/* The first three lines run together; "recognisable" and "landmarks"
+   start new lines */
+.about-hero__line--right {
+  display: block;
+}
+
+/* 378.7 × 298 at 320, growing to the tablet 699 × 550 */
+.about-hero__visual {
+  position: relative;
+  flex-shrink: 0;
+  align-self: center;
+  width: min(118.35vw, 699px);
+  aspect-ratio: 699 / 550;
+  margin: -22px 0 -23px;
+}
+
+.about-hero__star {
+  width: 100%;
+  height: 100%;
+}
+
+/* Dashed circle 62% and photo 56% of the star width, both centred */
+.about-hero__circle,
+.about-hero__photo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+}
+
+.about-hero__circle {
+  width: 62.06%;
+  height: auto;
+  opacity: 0.8;
+}
+
+/* Photo toned to the brown "Коричневый" hue, then darkened by 55% */
+.about-hero__photo {
+  isolation: isolate;
+  overflow: hidden;
+  width: 56.24%;
+  border-radius: 50%;
+}
+
+.about-hero__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: bottom;
+}
+
+.about-hero__photo::before,
+.about-hero__photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.about-hero__photo::before {
+  background: var(--color-brown-soft);
+  mix-blend-mode: hue;
+}
+
+.about-hero__photo::after {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+/* Accents — 14px (mobile) / Text 20px (tablet) / 34px (desktop) */
+.about-hero__text {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* Desktop only: the small star on the left */
+.about-hero__icon {
+  display: none;
+}
+
+/* Intro: the lines and the text fade in one after another,
+   the star picture grows in, the small star turns (as on the home hero) */
+@keyframes about-hero-visual {
+  from { opacity: 0; scale: 0.9; }
+  to   { opacity: 1; scale: 1; }
+}
+
+.about-hero__line,
+.about-hero__text {
+  animation: hero-fade 0.9s ease both;
+}
+
+.about-hero__line:nth-child(1) { animation-delay: 0.2s; }
+.about-hero__line:nth-child(2) { animation-delay: 0.35s; }
+.about-hero__line:nth-child(3) { animation-delay: 0.5s; }
+.about-hero__line:nth-child(4) { animation-delay: 0.65s; }
+.about-hero__line:nth-child(5) { animation-delay: 0.8s; }
+.about-hero__text              { animation-delay: 1.1s; }
+
+.about-hero__visual {
+  animation: about-hero-visual 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+/* The big star also turns in, like the home hero star, while the picture grows */
+.about-hero__star {
+  animation: hero-star 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+.about-hero__icon {
+  animation: hero-star 1.4s cubic-bezier(0.22, 1, 0.36, 1) 1.3s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-hero__line,
+  .about-hero__text,
+  .about-hero__visual,
+  .about-hero__star,
+  .about-hero__icon {
+    animation: none;
+  }
+}
+
+/* ---------- Tablet ---------- */
+
+@media (min-width: 768px) {
+  .about-hero {
+    padding-top: calc(var(--header-h) + 48px);   /* 112px */
+    padding-bottom: 40px;
+  }
+
+  .about-hero__title {
+    font-size: 60px;
+    line-height: 0.85;
+    letter-spacing: -0.01em;
+  }
+
+  .about-hero__visual {
+    margin: -33px 0;
+  }
+
+  /* Text — 20px with the first line starting at the middle (304 / 600) */
+  .about-hero__text {
+    font-size: 20px;
+    line-height: 1.2;
+    letter-spacing: 0;
+    text-indent: 50.667%;
+  }
+}
+
+/* ---------- Desktop ---------- */
+
+/* Content in the same 1200px column as the header (200px sides at 1600);
+   the small star sits in the left margin. Sizes follow the 1600 frame in vw */
+@media (min-width: 1024px) {
+  .about-hero {
+    gap: min(10.75vw, 172px);
+    padding: min(6.8125vw, 109px) max(var(--container-pad), 50% - 600px) min(2.5vw, 40px);
+  }
+
+  .about-hero__title {
+    font-size: min(6.875vw, 110px);
+    letter-spacing: 0;
+  }
+
+  .about-hero__line {
+    display: block;
+  }
+
+  .about-hero__line--center {
+    text-align: center;
+  }
+
+  .about-hero__line--right {
+    text-align: right;
+  }
+
+  /* Star picture: full hero height, centred behind the text */
+  .about-hero__visual {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 0;
+    width: auto;
+    height: 100%;
+    aspect-ratio: 1211 / 955;
+    margin: 0;
+    translate: -50% 0;
+  }
+
+  /* Text — 34px, first line from 253 / 1200 */
+  .about-hero__text {
+    font-size: min(2.125vw, 34px);
+    letter-spacing: -0.03em;
+    text-indent: 21.0833%;
+  }
+
+  .about-hero__icon {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: max(6.25vw, 50% - 700px);
+    width: min(6.1875vw, 99px);
+    height: auto;
+    translate: 0 -50%;
+  }
+}
+
+/* ---------- Team ---------- */
+
+.team__content,
+.team__body,
+.team__text-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Text 1 — 12px (mobile) / 14px */
+.team__text {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.team__imgs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.team__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Mobile: 280 × 280 bridge, 280 × 202 portrait */
+.team__img--large {
+  aspect-ratio: 1;
+}
+
+.team__img--small {
+  aspect-ratio: 280 / 202;
+}
+
+.team__img--small img {
+  object-position: 34% 50%;
+}
+
+/* Text and photos fade in as they scroll in; the second photo a little later */
+@media (prefers-reduced-motion: no-preference) {
+  .js .team__text,
+  .js .team__img {
+    opacity: 0;
+  }
+
+  .js .team__text.is-visible,
+  .js .team__img.is-visible {
+    animation: hero-fade 0.9s ease var(--reveal-delay, 0.1s) both;
+  }
+
+  .js .team__img--small {
+    --reveal-delay: 0.3s;
+  }
+}
+
+/* ---------- Tablet ---------- */
+
+/* Photos in the left column (295 / 600), text from 305 / 600 with the
+   button pinned to the bottom of the photo column */
+@media (min-width: 768px) {
+  .team__body {
+    display: grid;
+    grid-template-columns: 49.1667% minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .team__imgs {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  .team__text-wrap {
+    grid-row: 1;
+    grid-column: 2;
+    justify-content: space-between;
+    width: 217px;
+    max-width: 100%;
+  }
+
+  .team__text {
+    font-size: 14px;
+  }
+
+  .team__img--large {
+    aspect-ratio: 295 / 339;
+  }
+
+  .team__img--large img {
+    object-position: 21% 50%;
+  }
+
+  .team__img--small {
+    aspect-ratio: 295 / 202;
+  }
+
+  .team__img--small img {
+    object-position: 50% 50%;
+  }
+}
+
+/* ---------- Desktop ---------- */
+
+/* 155 empty | 335 photo | 20 | 217 text | … | 217 square photo (of 1200) */
+@media (min-width: 1024px) {
+  .team .section-head__title,
+  .approach .section-head__title {
+    width: 87%;              /* 1044 / 1200 */
+    text-indent: 36.494%;    /* 381 / 1044 */
+  }
+
+  .team__body {
+    grid-template-columns: 12.9167% 27.9167% 1.6667% 18.0833% minmax(0, 1fr) 18.0833%;
+    gap: 0;
+  }
+
+  .team__imgs {
+    display: contents;
+  }
+
+  .team__img--large {
+    grid-row: 1;
+    grid-column: 2;
+    aspect-ratio: 335 / 454;
+  }
+
+  .team__img--large img {
+    object-position: 50% 50%;
+  }
+
+  .team__text-wrap {
+    grid-column: 4;
+    width: auto;
+  }
+
+  .team__img--small {
+    grid-row: 1;
+    grid-column: 6;
+    align-self: end;
+    aspect-ratio: 1;
+  }
+}
+
+/* ---------- Approach ---------- */
+
+.approach__content,
+.approach__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.approach__body,
+.approach__list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.approach__intro {
+  gap: 10px;
+}
+
+/* Two square photos (135px each on mobile) */
+.approach__imgs {
+  display: flex;
+  gap: 11px;
+}
+
+.approach__img {
+  flex: 1 1 0;
+  aspect-ratio: 1;
+}
+
+.approach__img img,
+.drop__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.approach__img--model img {
+  object-position: 47% 50%;
+}
+
+/* Text 1 — 12px (mobile) / 14px */
+.approach__text,
+.drop__text {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* ---------- Dropdown ("dropdown-list") ----------
+   Beige corner frames 65px tall: the top one always, the bottom one
+   (flipped) fades in while the item is open. Closed item: 65px. */
+.drop {
+  position: relative;
+}
+
+.drop::before,
+.drop::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 65px;
+  border: 1px solid var(--color-beige);
+  pointer-events: none;
+}
+
+.drop::before {
+  top: 0;
+  border-bottom: 0;
+}
+
+.drop::after {
+  bottom: 0;
+  border-top: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.drop[open]:not(.is-closing)::after {
+  opacity: 1;
+}
+
+/* Title 24px from the top, then 11px to the frame's end on mobile */
+.drop__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px 24px 11px;
+  list-style: none;
+  cursor: pointer;
+}
+
+.drop__head::-webkit-details-marker {
+  display: none;
+}
+
+.drop__head:focus-visible {
+  outline: 1px solid var(--color-brown);
+  outline-offset: -6px;
+}
+
+/* H4 — 18px (mobile) / 22px Medium */
+.drop__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Beige round button; the plus turns into a cross, as in Career */
+.drop__icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--color-beige);
+  border-radius: 50%;
+}
+
+.drop__icon img {
+  width: 11px;
+  height: 11px;
+  transition: transform 0.3s ease;
+}
+
+.drop[open]:not(.is-closing) .drop__icon img {
+  transform: rotate(45deg);
+}
+
+/* 22px after the title (11 of them under the head); 35px down to the
+   bottom of the lower frame */
+.drop__body {
+  padding-top: 11px;
+}
+
+.drop__content {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 0 24px 35px;
+}
+
+.drop__text p + p {
+  margin-top: 1.2em;            /* one empty line */
+}
+
+.drop__img {
+  aspect-ratio: 233 / 195;
+}
+
+/* Text, photos and dropdowns fade in as they scroll in */
+@media (prefers-reduced-motion: no-preference) {
+  .js .approach__intro,
+  .js .drop {
+    opacity: 0;
+  }
+
+  .js .approach__intro.is-visible,
+  .js .drop.is-visible {
+    animation: hero-fade 0.9s ease var(--reveal-delay, 0.1s) both;
+  }
+
+  .js .drop:nth-child(2) {
+    --reveal-delay: 0.3s;
+  }
+
+  .js .drop:nth-child(3) {
+    --reveal-delay: 0.5s;
+  }
+}
+
+/* ---------- Tablet ---------- */
+
+/* Photos + text 194 / 600 on the left, dropdowns 356 / 600 on the right */
+@media (min-width: 768px) {
+  .approach__body {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .approach__intro {
+    width: 32.3333%;
+  }
+
+  .approach__imgs {
+    gap: 10px;
+  }
+
+  .approach__list {
+    width: 59.3333%;
+  }
+
+  .approach__text,
+  .drop__text {
+    font-size: 14px;
+  }
+
+  /* Content column 264 / 356, centred */
+  .drop__head {
+    padding: 35px 46px 0;
+  }
+
+  .drop__title {
+    font-size: 22px;
+  }
+
+  .drop__body {
+    padding-top: 20px;
+  }
+
+  .drop__content {
+    gap: 20px;
+    padding: 0 46px 35px;
+  }
+
+  .drop__img {
+    aspect-ratio: 264 / 195;
+  }
+
+  .drop__img--people img {
+    object-position: 11% 50%;
+  }
+}
+
+/* ---------- Desktop ---------- */
+
+/* 217px intro on the left, 690 / 1200 dropdowns on the right;
+   open item: 217px text + 300 × 195 photo */
+@media (min-width: 1024px) {
+  .approach__content {
+    gap: 30px;
+  }
+
+  .approach__intro {
+    gap: 15px;
+    width: 217px;
+  }
+
+  .approach__imgs {
+    gap: 20px;
+  }
+
+  .approach__img {
+    aspect-ratio: 98.5 / 110;
+  }
+
+  .approach__list {
+    width: 57.5%;
+  }
+
+  .drop__head {
+    padding: 35px 35px 0;
+  }
+
+  .drop__content {
+    display: grid;
+    grid-template-columns: 217px minmax(0, 1fr);
+    align-items: start;
+    column-gap: min(103px, 16.6%);
+    padding: 0 35px 35px;
+  }
+
+  .drop__img {
+    aspect-ratio: 300 / 195;
+  }
+
+  .drop__img--people img {
+    object-position: 65% 50%;
+  }
+}
+
+/* ---------- Sustainability ---------- */
+
+.sustain__content,
+.sustain__main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sustain__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.sustain__main {
+  width: 100%;
+}
+
+/* Text 1 — 12px (mobile) / 14px, paragraphs one empty line apart */
+.sustain__text {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.sustain__text p {
+  margin: 0;
+}
+
+.sustain__text p + p {
+  margin-top: 1.2em;
+}
+
+/* 280 × 280 (mobile) / 217 × 225 */
+.sustain__img {
+  aspect-ratio: 1;
+}
+
+.sustain__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- "1983 — circle — 2024" ---------- */
+
+.years {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+/* Dates — Soligant 40px (mobile) / 47px, beige */
+.years__date {
+  margin: 0;
+  color: var(--color-beige);
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 0.8;
+  letter-spacing: -0.02em;
+}
+
+/* 205px dashed circle (217px from tablet up), dots on top and bottom */
+.years__circle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 205px;
+  aspect-ratio: 1;
+}
+
+.years__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.years__dot {
+  position: absolute;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  translate: -50% -50%;
+}
+
+.years__dot--top {
+  top: 0;
+}
+
+.years__dot--bottom {
+  top: 100%;
+}
+
+.years__text {
+  position: relative;
+  width: 159px;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  opacity: 0.7;
+}
+
+.years__br {
+  display: none;
+}
+
+/* Text, photo and the circle fade in as they scroll in */
+@media (prefers-reduced-motion: no-preference) {
+  .js .sustain__text,
+  .js .sustain__img,
+  .js .years {
+    opacity: 0;
+  }
+
+  .js .sustain__text.is-visible,
+  .js .sustain__img.is-visible,
+  .js .years.is-visible {
+    animation: hero-fade 0.9s ease var(--reveal-delay, 0.1s) both;
+  }
+
+  .js .sustain__img {
+    --reveal-delay: 0.3s;
+  }
+}
+
+/* ---------- Tablet ---------- */
+
+/* Circle on the left (217) + 78px, text and photo in a 217px column
+   from 295 / 600, both pinned to the bottom */
+@media (min-width: 768px) {
+  .sustain__body {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 78px;
+  }
+
+  .years {
+    order: -1;
+    gap: 27px;
+  }
+
+  .sustain__main {
+    width: 217px;
+  }
+
+  .sustain__text {
+    font-size: 14px;
+  }
+
+  .sustain__img {
+    aspect-ratio: 217 / 225;
+  }
+
+  .years__date {
+    font-size: 47px;
+  }
+
+  .years__circle {
+    width: 217px;
+  }
+
+  .years__text {
+    width: 161px;
+    font-size: 14px;
+  }
+
+  .years__br {
+    display: inline;
+  }
+}
+
+/* ---------- Desktop ---------- */
+
+/* Circle left; text and photo spread over 690 / 1200 on the right */
+@media (min-width: 1024px) {
+  /* Title in an 844 / 1200 column with a 381px first-line indent */
+  .sustain .section-head__title {
+    width: 70.3333%;
+    text-indent: 45.142%;
+  }
+
+  .sustain__body {
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .sustain__main {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 57.5%;
+  }
+
+  .sustain__text,
+  .sustain__img {
+    width: 217px;
+  }
+}
+
+/* ---------- Project page (project-page.html): Figma "Project" ----------
+   Hero: two-line title, facts + intro text, light star behind the cut-out
+   photo of the stands. Mobile 320 / tablet 640 / desktop 1600 frames. */
+
+/* Content, then the star + photo block, which is wider than the screen on
+   mobile / tablet (centred, cropped by the hero) and ends the hero */
+.case-hero {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 38px;
+  padding-top: calc(var(--header-h) + 23px);   /* 87px */
+  background: var(--color-brown);
+  color: var(--color-light);
+}
+
+.case-hero__content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* H1 — Soligant 37px (mobile) / 46px (tablet) / 93px (desktop) */
+.case-hero__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 37px;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.case-hero__line {
+  display: block;
+}
+
+.case-hero__info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Text 1 — 12px (mobile) / 14px; facts at 60%, values Bold (mobile) / Medium */
+.case-hero__facts,
+.case-hero__text {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.case-hero__facts {
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  white-space: nowrap;
+  opacity: 0.6;
+}
+
+.case-hero__facts dt,
+.case-hero__facts dd {
+  display: inline;
+  margin: 0;
+}
+
+.case-hero__facts dd {
+  font-weight: 700;
+}
+
+.case-hero__text p {
+  margin: 0;
+}
+
+/* 535 / 320: star 187 / 535 from 173 / 535; the photo (535 × 136,
+   stretched as in Figma) starts 119 / 535 below the star's top */
+.case-hero__visual {
+  flex-shrink: 0;
+  width: 167.1875vw;
+}
+
+.case-hero__star {
+  width: 35.026%;
+  height: auto;
+  margin-left: 32.264%;
+}
+
+.case-hero__img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1600 / 406;
+  margin-top: -12.71%;
+}
+
+/* Intro: title lines, facts and text fade in one after another,
+   the photo rises in, the star turns (as on the other heroes) */
+@keyframes case-hero-img {
+  from { opacity: 0; translate: 0 15%; }
+  to   { opacity: 1; translate: 0 0; }
+}
+
+.case-hero__line,
+.case-hero__facts,
+.case-hero__text {
+  animation: hero-fade 0.9s ease both;
+}
+
+.case-hero__line:nth-child(1) { animation-delay: 0.2s; }
+.case-hero__line:nth-child(2) { animation-delay: 0.35s; }
+.case-hero__facts             { animation-delay: 0.6s; }
+.case-hero__text              { animation-delay: 0.75s; }
+
+.case-hero__img {
+  animation: case-hero-img 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+}
+
+.case-hero__star {
+  animation: hero-star 1.4s cubic-bezier(0.22, 1, 0.36, 1) 1s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-hero__line,
+  .case-hero__facts,
+  .case-hero__text,
+  .case-hero__img,
+  .case-hero__star {
+    animation: none;
+  }
+}
+
+/* ---------- Tablet ---------- */
+
+@media (min-width: 768px) {
+  .case-hero {
+    gap: 150px;
+    padding-top: calc(var(--header-h) + 50px);   /* 114px */
+  }
+
+  .case-hero__content {
+    gap: 30px;
+  }
+
+  .case-hero__title {
+    font-size: 46px;
+  }
+
+  .case-hero__line--right {
+    text-align: right;
+  }
+
+  /* Facts on the left, text from 305 / 600 */
+  .case-hero__info {
+    display: grid;
+    grid-template-columns: 50.8333% 193px;
+    align-items: start;
+  }
+
+  .case-hero__facts,
+  .case-hero__text {
+    font-size: 14px;
+  }
+
+  .case-hero__facts {
+    flex-direction: column;
+  }
+
+  .case-hero__facts dd {
+    font-weight: 600;
+  }
+
+  /* 902 / 640: star 295 / 902 from 362 / 902, photo 184 / 902 below its top */
+  .case-hero__visual {
+    width: 140.9375vw;
+  }
+
+  .case-hero__star {
+    width: 32.705%;
+    margin-left: 40.133%;
+  }
+
+  .case-hero__img {
+    margin-top: -12.306%;
+  }
+}
+
+/* ---------- Desktop ---------- */
+
+/* Full-width photo; the star (453 at 1600) ends at the content's right edge
+   and the photo starts 57 / 453 below the star's top */
+@media (min-width: 1024px) {
+  .case-hero {
+    --star-w: min(28.3125vw, 453px);
+    gap: 0;
+    padding-top: min(8.375vw, 134px);
+  }
+
+  .case-hero__content {
+    gap: 10px;
+  }
+
+  .case-hero__title {
+    font-size: min(5.8125vw, 93px);
+  }
+
+  /* Text from 610 / 1200 */
+  .case-hero__info {
+    grid-template-columns: 50.8333% 183px;
+  }
+
+  .case-hero__visual {
+    width: 100%;
+  }
+
+  .case-hero__star {
+    width: var(--star-w);
+    margin-left: calc((100% + min(1200px, 100% - 2 * var(--container-pad))) / 2 - var(--star-w));
+  }
+
+  .case-hero__img {
+    margin-top: calc(var(--star-w) * -0.87417);
+  }
+}
+
+/* ---------- Architecture ---------- */
+
+/* Captions and titles are full "Темно-коричневый" at every width here */
+.case-main .section-head__caption,
+.case-main .section-head__title {
+  color: var(--color-brown);
+}
+
+.case-arch__content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Mobile: text above the photo (photo first in the markup for tablet up) */
+.case-arch__body {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 15px;
+}
+
+/* 280 × 200 (mobile) / 193 × 238 (tablet) / 183 × 272 (desktop) */
+.case-arch__img {
+  overflow: hidden;
+  height: 200px;
+}
+
+.case-arch__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Text 1 — 12px (mobile) / 14px */
+.case-arch__text {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.case-arch__text p {
+  margin: 0;
+}
+
+/* Text and photo fade in as they scroll in; the text a little later */
+@media (prefers-reduced-motion: no-preference) {
+  .js .case-arch__img,
+  .js .case-arch__text {
+    opacity: 0;
+  }
+
+  .js .case-arch__img.is-visible,
+  .js .case-arch__text.is-visible {
+    animation: hero-fade 0.9s ease var(--reveal-delay, 0.1s) both;
+  }
+
+  .js .case-arch__text {
+    --reveal-delay: 0.3s;
+  }
+}
+
+/* ---------- Tablet ---------- */
+
+/* Photo + text (193 each, 10px apart) centred under the title */
+@media (min-width: 768px) {
+  .case-arch__content {
+    gap: 30px;
+  }
+
+  .case-arch__body {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .case-arch__img,
+  .case-arch__text {
+    flex-shrink: 0;
+    width: 193px;
+  }
+
+  .case-arch__img {
+    height: 238px;
+  }
+
+  .case-arch__text {
+    font-size: 14px;
+  }
+}
+
+/* ---------- Desktop ---------- */
+
+/* Photo 183 × 272 + 20 + text 183, centred: the text starts at 610 / 1200 */
+@media (min-width: 1024px) {
+  .case-arch__content {
+    gap: 40px;
+  }
+
+  .case-arch__body {
+    gap: 20px;
+  }
+
+  .case-arch__img,
+  .case-arch__text {
+    width: 183px;
+  }
+
+  .case-arch__img {
+    height: 272px;
+  }
+}
+
+/* ---------- About project ---------- */
+
+.case-about__content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Text 1 — 12px (mobile) / 14px */
+.case-about__text {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* Fact card ("Component 10"): dark square, the photo inset by 2px with
+   rounded corners, a light label on top and the value at the bottom */
+.fact-card {
+  position: relative;
+  width: 266px;
+  aspect-ratio: 1;
+  background: var(--color-brown);
+  color: var(--color-light);
+}
+
+.fact-card__img {
+  position: absolute;
+  inset: 2px;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+/* Cards 1 and 3: the photo is stretched to the square, as in Figma */
+.fact-card__img img {
+  width: 100%;
+  height: 100%;
+}
+
+/* Darkening towards the bottom, under the value */
+.fact-card__img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(34, 17, 9, 0) var(--shade-from, 26%), rgba(34, 17, 9, var(--shade, 0.3)) 100%);
+}
+
+.fact-card--location { --shade: 0.2; --shade-from: 25.72%; }
+.fact-card--awards   { --shade-from: 38.24%; }
+.fact-card--status .fact-card__img::after { content: none; }
+
+/* Cards 2 and 4: Figma crops (sizes and offsets of the photo box) */
+.fact-card--status .fact-card__img img,
+.fact-card--awards .fact-card__img img {
+  position: absolute;
+  max-width: none;
+}
+
+.fact-card--status .fact-card__img img {
+  top: -8.59%;
+  left: -6.88%;
+  width: 167.99%;
+  height: 110.38%;
+}
+
+.fact-card--awards .fact-card__img img {
+  top: -24.06%;
+  left: -65.88%;
+  width: 206.75%;
+  height: 129.22%;
+}
+
+/* Label — Text 1 on a light pill */
+.fact-card__label {
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  padding: 3.43px 8.57px;
+  border-radius: 86px;
+  background: var(--color-light);
+  color: var(--color-brown);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* H4 — 16px (mobile) / 22px Medium */
+.fact-card__value {
+  position: absolute;
+  right: 22px;
+  bottom: 22px;
+  left: 22px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Text and cards fade in as they scroll in; cards in random order (JS) */
+@media (prefers-reduced-motion: no-preference) {
+  .js .case-about__text,
+  .js .case-about__list > li {
+    opacity: 0;
+  }
+
+  .js .case-about__text.is-visible,
+  .js .case-about__list.is-visible > li {
+    animation: hero-fade 0.9s ease var(--reveal-delay, 0.1s) both;
+  }
+}
+
+/* ---------- Tablet ---------- */
+
+/* Text from the middle (300 / 600); cards 2 × 2, 10px / 8px apart */
+@media (min-width: 768px) {
+  .case-about__content {
+    gap: 30px;
+  }
+
+  .case-about__text {
+    width: 193px;
+    margin-left: 50%;
+    font-size: 14px;
+  }
+
+  .case-about__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 10px;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .fact-card {
+    width: auto;
+  }
+
+  .fact-card__img {
+    border-radius: 17.143px;
+  }
+
+  .fact-card__label {
+    font-size: 14px;
+  }
+
+  .fact-card__value {
+    font-size: 22px;
+  }
+}
+
+/* ---------- Desktop ---------- */
+
+/* Text from 610 / 1200; four 281 × 279 cards in a row, 24px apart */
+@media (min-width: 1024px) {
+  .case-about__content {
+    gap: 40px;
+  }
+
+  .case-about__text {
+    width: 183px;
+    margin-left: 50.8333%;
+  }
+
+  .case-about__list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .fact-card {
+    aspect-ratio: 281 / 279;
+  }
+
+  /* Desktop Figma crops the London photo instead of stretching it */
+  .fact-card--location .fact-card__img img {
+    object-fit: cover;
+  }
+
+  .fact-card__label {
+    top: 20px;
+    left: 20px;
+  }
+
+  .fact-card__value {
+    right: 20px;
+    bottom: 20px;
+    left: 20px;
+  }
+}
+
+/* ---------- New updates ---------- */
+
+.case-updates__content,
+.case-updates__body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Accents — 14px (mobile) / 18px, -2% */
+.case-updates__text {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.case-updates__text p {
+  margin: 0;
+}
+
+/* Mobile slider: round photo 135 × 144, photos 136 × 145 */
+.case-updates__imgs {
+  align-items: center;
+}
+
+/* Round photo in a 203 × 217 box (135 × 144 on mobile): the circle is
+   160 / 203 wide and centred, small dots in the corners */
+.case-updates__round {
+  position: relative;
+  width: 135px;
+  aspect-ratio: 203 / 217;
+}
+
+.case-updates__round-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  overflow: hidden;
+  width: 78.82%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  translate: -50% -50%;
+}
+
+.case-updates__round-img img,
+.case-updates__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 6px dots on mobile, 10px from tablet up */
+.case-updates__dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+}
+
+.case-updates__dot--tl { top: 0; left: 0; }
+.case-updates__dot--tr { top: 0; right: 0; }
+.case-updates__dot--bl { bottom: 0; left: 0; }
+.case-updates__dot--br { bottom: 0; right: 0; }
+
+.case-updates__img {
+  width: 136px;
+  height: 145px;
+}
+
+/* Text, round photo and photos fade in as they scroll in */
+@media (prefers-reduced-motion: no-preference) {
+  .js .case-updates__text,
+  .js .case-updates__imgs > li {
+    opacity: 0;
+  }
+
+  .js .case-updates__text.is-visible,
+  .js .case-updates__imgs > li.is-visible {
+    animation: hero-fade 0.9s ease var(--reveal-delay, 0.1s) both;
+  }
+
+  .js .case-updates__img--wide {
+    --reveal-delay: 0.25s;
+  }
+
+  .js .case-updates__img--square {
+    --reveal-delay: 0.4s;
+  }
+}
+
+/* ---------- Tablet ---------- */
+
+/* One grid on the 600 frame, column lines at 203 / 305 / 396 / 407 / 498:
+   round photo 0–203 and text 305–498 on top,
+   photos 0–396 (396 × 270) and 407–600 (193 × 192) below */
+@media (min-width: 768px) {
+  .case-updates__content {
+    gap: 30px;
+  }
+
+  .case-updates__body {
+    display: grid;
+    grid-template-columns: 33.8333% 17% 15.1667% 1.8333% 15.1667% 17%;
+    align-items: start;
+    gap: 30px 0;
+  }
+
+  .case-updates__imgs {
+    display: contents;
+  }
+
+  .case-updates__text {
+    grid-row: 1;
+    grid-column: 3 / 6;
+    font-size: 18px;
+  }
+
+  .case-updates__round {
+    grid-row: 1;
+    grid-column: 1;
+    width: 203px;
+  }
+
+  .case-updates__dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  .case-updates__img {
+    grid-row: 2;
+    width: auto;
+    height: auto;
+  }
+
+  .case-updates__img--wide {
+    grid-column: 1 / 4;
+    aspect-ratio: 396 / 270;
+  }
+
+  .case-updates__img--square {
+    grid-column: 5 / 7;
+    aspect-ratio: 193 / 192;
+  }
+}
+
+/* ---------- Desktop ---------- */
+
+/* The block starts at 203 / 1200; lines at 406 / 609 / 861 / 880 / 894:
+   round photo 203–406 and text 609–894 on top,
+   photos 203–861 (658 × 448) and 880–1200 (320 × 320) below */
+@media (min-width: 1024px) {
+  .case-updates__content {
+    gap: 40px;
+  }
+
+  .case-updates__body {
+    grid-template-columns: 16.949% 16.917% 16.917% 21% 1.583% 1.167% 25.467%;
+    gap: 40px 0;
+  }
+
+  .case-updates__text {
+    grid-column: 4 / 7;
+  }
+
+  .case-updates__round {
+    grid-column: 2;
+    width: 100%;
+  }
+
+  .case-updates__img--wide {
+    grid-column: 2 / 5;
+    aspect-ratio: 658 / 448;
+  }
+
+  .case-updates__img--square {
+    grid-column: 6 / 8;
+    aspect-ratio: 1;
+  }
+}
+
+/* ---------- Advertisement ---------- */
+
+.case-ad__content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Text 1 — 12px, -2% (mobile) / 14px */
+.case-ad__text {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.case-ad__text p,
+.case-ad__quote {
+  margin: 0;
+}
+
+/* Mobile: one block — the first paragraph, an empty line, then the second
+   paragraph running on into the quote */
+.case-ad__col {
+  display: contents;
+}
+
+.case-ad__text .case-ad__lead {
+  margin-bottom: 1.2em;
+}
+
+.case-ad__run {
+  display: inline;
+}
+
+/* Composition on the 690 × 402 desktop frame (600 × 349 tablet,
+   280 × 162 mobile — the same proportions) */
+.case-ad__visual {
+  position: relative;
+  aspect-ratio: 690 / 402;
+}
+
+/* Line + dots share the picture's box, so they turn around its centre */
+.case-ad__axis {
+  position: absolute;
+  inset: 0;
+}
+
+.case-ad__line {
+  position: absolute;
+  top: 50%;
+  left: 3.333%;
+  width: 93.478%;
+  height: 1px;
+}
+
+/* Dashed ellipse 493 / 690 wide, full height */
+.case-ad__ellipse {
+  position: absolute;
+  top: 0;
+  left: 14.348%;
+  width: 71.449%;
+  height: 100%;
+}
+
+/* Round photo 338 / 690, from 176 / 690 and 32 / 402 */
+.case-ad__photo {
+  position: absolute;
+  top: 7.96%;
+  left: 25.507%;
+  overflow: hidden;
+  width: 48.986%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.case-ad__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 12 / 690 dots at the ends of the line */
+.case-ad__dot {
+  position: absolute;
+  top: 48.507%;
+  width: 1.739%;
+  height: auto;
+}
+
+.case-ad__dot--left  { left: 0; }
+.case-ad__dot--right { right: 0; }
+
+/* Text, then the picture fade in as they scroll in */
+@media (prefers-reduced-motion: no-preference) {
+  .js .case-ad__text,
+  .js .case-ad__visual {
+    opacity: 0;
+  }
+
+  .js .case-ad__text.is-visible,
+  .js .case-ad__visual.is-visible {
+    animation: hero-fade 0.9s ease var(--reveal-delay, 0.1s) both;
+  }
+
+  .js .case-ad__visual {
+    --reveal-delay: 0.3s;
+  }
+
+  /* The line with its dots turns in like the hero star, after the picture fades in */
+  .js .case-ad__axis {
+    opacity: 0;
+  }
+
+  .js .case-ad__visual.is-visible .case-ad__axis {
+    animation: hero-star 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
+  }
+}
+
+/* ---------- Tablet ---------- */
+
+/* Two 193px columns, 10px apart, centred; the picture 40px below */
+@media (min-width: 768px) {
+  .case-ad__content {
+    gap: 20px;
+  }
+
+  .case-ad__text {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    letter-spacing: 0;
+  }
+
+  .case-ad__col {
+    display: block;
+    flex-shrink: 0;
+    width: 193px;
+  }
+
+  .case-ad__text .case-ad__lead {
+    margin-bottom: 0;
+  }
+
+  .case-ad__run {
+    display: block;
+  }
+}
+
+/* ---------- Desktop ---------- */
+
+/* Columns 183 + 20 + 184 from 610 / 1200; the picture 690 / 1200 from 307 */
+@media (min-width: 1024px) {
+  .case-ad__text {
+    justify-content: flex-start;
+    gap: 20px;
+    margin: 0 0 0 50.8333%;
+  }
+
+  .case-ad__col {
+    width: 183px;
+  }
+
+  .case-ad__quote {
+    width: 184px;
+  }
+
+  .case-ad__visual {
+    width: 57.5%;
+    margin-left: 25.5833%;
+  }
+}
+
+/* ---------- Similar ---------- */
+
+.case-similar__content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Mobile / tablet: the slider starts at the content edge and runs off the
+   right side of the screen; beige lines above and below it */
+.case-similar__list {
+  gap: 20px;
+  margin: 0 calc(-1 * var(--container-pad)) 0 0;
+  padding: 10px var(--container-pad) 10px 0;
+  scroll-padding-inline: 0 var(--container-pad);
+  border-top: 1px solid var(--color-beige);
+  border-bottom: 1px solid var(--color-beige);
+}
+
+/* Cards 280 / 285 / 280 / 285 (mobile) and 295 / 285 / 295 / 265 */
+.case-similar__list > li {
+  position: relative;
+  width: 280px;
+}
+
+.case-similar__list > li:nth-child(even) {
+  width: 285px;
+}
+
+/* Beige line in the middle of the 20px gap, from border to border */
+.case-similar__list > li + li::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: -10.5px;
+  width: 1px;
+  background: var(--color-beige);
+}
+
+/* "article-card": title on top, place + number above the photo at the bottom.
+   Text 1 — 12px (mobile) / 14px */
+.similar-card {
+  display: flex;
+  flex-direction: column;
+  height: 344px;
+  color: var(--color-brown);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.similar-card__title {
+  margin: 0;
+  font: inherit;
+  white-space: nowrap;
+}
+
+.similar-card__meta {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.similar-card__place {
+  max-width: 127px;
+}
+
+/* Tall photo (262 mobile / 276) on odd cards, short (154) on even */
+.similar-card__img {
+  position: relative;
+  flex: none;
+  display: block;
+  overflow: hidden;
+  height: 154px;
+  margin-top: 10px;
+}
+
+.similar-card--tall .similar-card__img {
+  height: 262px;
+}
+
+/* Photo box from the Figma crop: size and offset within the frame */
+.similar-card__img img {
+  position: absolute;
+  top: var(--y, 0%);
+  left: var(--x, 0%);
+  width: var(--w, 100%);
+  height: var(--h, 100%);
+  max-width: none;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.similar-card:hover .similar-card__img img,
+.similar-card:focus-visible .similar-card__img img {
+  transform: scale(1.04);
+}
+
+.similar-card--dodington { --w: 149.73%; --x: -26.56%; }
+.similar-card--lsbu      { --h: 119.7%; --y: -12.86%; }
+.similar-card--dyson     { --h: 120.48%; --y: -1.33%; }
+
+/* Cards fade in one by one, in random order (JS) */
+@media (prefers-reduced-motion: no-preference) {
+  .js .case-similar__list > li {
+    opacity: 0;
+  }
+
+  .js .case-similar__list.is-visible > li {
+    animation: hero-fade 0.9s ease var(--reveal-delay, 0s) both;
+  }
+}
+
+/* ---------- Tablet ---------- */
+
+@media (min-width: 768px) {
+  .case-similar__list > li {
+    width: 295px;
+  }
+
+  .case-similar__list > li:nth-child(2) {
+    width: 285px;
+  }
+
+  .case-similar__list > li:nth-child(4) {
+    width: 265px;
+  }
+
+  .similar-card {
+    height: 386px;
+    font-size: 14px;
+  }
+
+  .similar-card--tall .similar-card__img {
+    height: 276px;
+  }
+
+  .similar-card--cibc  { --w: 155.54%; --x: -27.6%; --y: -0.13%; }
+  .similar-card--dyson { --w: 112.96%; --h: 117.1%; --x: -5.52%; --y: -8.27%; }
+}
+
+/* ---------- Desktop ---------- */
+
+/* All four cards in the 1200 row, widths in the 295 : 285 : 295 : 265 ratio */
+@media (min-width: 1024px) {
+  .case-similar__content {
+    gap: 40px;
+  }
+
+  .case-similar__list {
+    margin: 0;
+    padding: 10px 0;
+  }
+
+  /* :nth-child(n) outweighs the mobile :nth-child(even) width */
+  .case-similar__list > li:nth-child(n) {
+    flex: 295 1 0;
+    min-width: 0;
+    width: auto;
+  }
+
+  .case-similar__list > li:nth-child(2) {
+    flex-grow: 285;
+  }
+
+  .case-similar__list > li:nth-child(4) {
+    flex-grow: 265;
+  }
+}

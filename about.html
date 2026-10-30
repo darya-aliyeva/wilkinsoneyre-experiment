@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About — WilkinsonEyre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fallback fonts, used only if Soligant / Neue Haas Grotesk aren't installed -->
+  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Inter:wght@500;600&display=swap" rel="stylesheet">
+  <!-- Marks that JS runs, so scroll-reveal elements may start hidden -->
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <!-- Same header as on the other pages; light over the dark hero, as on the home page -->
+  <header class="header">
+    <div class="container header__inner">
+      <a class="header__logo" href="index.html">WilkinsonEyre</a>
+
+      <nav class="header__nav" aria-label="Main">
+        <ul class="header__menu">
+          <li><a href="project.html">Projects</a></li>
+          <li><a href="about.html" aria-current="page">About</a></li>
+          <li><a href="index.html#career">Careers</a></li>
+          <li><a href="index.html#news">News</a></li>
+          <li><a href="contacts.html">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Mobile / tablet: opens the full-screen menu below -->
+      <button class="header__burger" type="button" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
+    </div>
+  </header>
+
+  <!-- Mobile / tablet menu: slides in from the right under the header -->
+  <div class="mobile-menu" id="mobile-menu" inert>
+    <div class="container mobile-menu__inner">
+      <nav aria-label="Main">
+        <ul class="mobile-menu__list">
+          <li><a href="project.html">Projects</a></li>
+          <li><a href="about.html" aria-current="page">About</a></li>
+          <li><a href="index.html#career">Careers</a></li>
+          <li><a href="index.html#news">News</a></li>
+          <li><a href="contacts.html">Contact</a></li>
+        </ul>
+      </nav>
+
+      <address class="mobile-menu__contacts">
+        <a href="mailto:info@wilkinsoneyre.com">info@wilkinsoneyre.com</a>
+        <a href="mailto:press@wilkinsoneyre.com">press@wilkinsoneyre.com</a>
+        <a href="mailto:newbusiness@wilkinsoneyre.com">newbusiness@wilkinsoneyre.com</a>
+      </address>
+    </div>
+  </div>
+
+  <main class="about-main">
+    <section class="about-hero" data-header-dark>
+      <!-- Title lines run together on mobile / tablet and stack
+           (left, left, centre, right, right) on desktop -->
+      <h1 class="about-hero__title">
+        <span class="about-hero__line">We have built</span>
+        <span class="about-hero__line">some of the</span>
+        <span class="about-hero__line about-hero__line--center">worlds most</span>
+        <span class="about-hero__line about-hero__line--right">recognisable</span>
+        <span class="about-hero__line about-hero__line--right">landmarks</span>
+      </h1>
+
+      <!-- Beige star, dashed circle and the round toned photo -->
+      <div class="about-hero__visual" aria-hidden="true">
+        <picture>
+          <source media="(min-width: 1024px)" srcset="assets/about-hero-star.svg" width="1211" height="955">
+          <img class="about-hero__star" src="assets/about-hero-star-sm.svg" width="699" height="550" alt="">
+        </picture>
+        <picture>
+          <source media="(min-width: 1024px)" srcset="assets/about-hero-circle.png">
+          <source media="(min-width: 590px)" srcset="assets/about-hero-circle-md.png">
+          <img class="about-hero__circle" src="assets/about-hero-circle-sm.png" width="750" height="750" alt="">
+        </picture>
+        <div class="about-hero__photo">
+          <img src="assets/about-hero.png" width="768" height="1024" alt="" fetchpriority="high">
+        </div>
+      </div>
+
+      <p class="about-hero__text">Driven by a passion for architecture of the highest quality, we craft buildings of durability and delight. Our studios around the world design buildings that please clients and excite users. Our global portfolio includes Gardens by the Bay in Singapore and Crown Sydney, a luxury destination hotel for Australia.</p>
+
+      <img class="about-hero__icon" src="assets/about-hero-icon.svg" width="99" height="105" alt="">
+    </section>
+
+    <section class="section team" aria-labelledby="team-title">
+      <div class="container team__content">
+        <header class="section-head">
+          <p class="section-head__caption">Team</p>
+          <h2 class="section-head__title" id="team-title">We craft buildings of durability and delight</h2>
+        </header>
+
+        <!-- Mobile: text + button, then the photos. Tablet: photos left, text right.
+             Desktop: tall photo, text, square photo pinned to the bottom right -->
+        <div class="team__body">
+          <div class="team__text-wrap">
+            <p class="team__text">Our global portfolio includes Gardens by the Bay in Singapore and Crown Sydney, a luxury destination hotel for Australia. We have spectacularly restored London’s Battersea Power Station, turning an industrial ruin into a new neighbourhood and visitor attraction, and have built headquarters and campuses for Dyson, Wellcome Trust, Deutsche Bank, CIBC, Munich RE, Facebook and Apple.</p>
+
+            <a class="link-button" href="#">
+              <span class="link-button__row">
+                Meet the team
+                <img src="assets/btn-arrow.svg" width="10.8536" height="10.8536" alt="">
+              </span>
+              <img class="link-button__line" src="assets/btn-line.svg" width="217" height="1" alt="">
+            </a>
+          </div>
+
+          <div class="team__imgs">
+            <div class="team__img team__img--large">
+              <img src="assets/team-1.png" width="1080" height="1080" alt="Model of a winding pedestrian bridge over water" loading="lazy">
+            </div>
+            <div class="team__img team__img--small">
+              <img src="assets/team-2.png" width="700" height="438" alt="Portrait of a WilkinsonEyre architect" loading="lazy">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section approach" aria-labelledby="approach-title">
+      <div class="container approach__content">
+        <header class="section-head">
+          <p class="section-head__caption">Approach</p>
+          <h2 class="section-head__title" id="approach-title">Our a rich resource is the ability to explore engineering potential and technology.</h2>
+        </header>
+
+        <div class="approach__body">
+          <div class="approach__intro">
+            <div class="approach__imgs">
+              <div class="approach__img">
+                <img src="assets/approach-1.png" width="700" height="438" alt="Portrait of a WilkinsonEyre director" loading="lazy">
+              </div>
+              <div class="approach__img approach__img--model">
+                <img src="assets/approach-2.png" width="1730" height="1081" alt="Sculptural architectural model" loading="lazy">
+              </div>
+            </div>
+            <p class="approach__text">We take a participatory approach to the brief, working with client and user groups, and promoting a spirit of exploration and enquiry.</p>
+          </div>
+
+          <!-- Dropdowns in beige corner frames: the top frame is always there,
+               the bottom one appears while the item is open -->
+          <div class="approach__list">
+            <details class="drop" name="approach">
+              <summary class="drop__head">
+                <h3 class="drop__title">Design Brief</h3>
+                <span class="drop__icon"><img src="assets/plus-beige.svg" width="11" height="11" alt=""></span>
+              </summary>
+              <div class="drop__body">
+                <div class="drop__content">
+                  <div class="drop__text">
+                    <p>Every project starts with listening. We work closely with clients and future users to understand their ambitions, constraints and the character of the place.</p>
+                    <p>The brief grows through workshops and research, so that the building answers real needs and leaves room for new ideas.</p>
+                  </div>
+                  <div class="drop__img">
+                    <img src="assets/thinking-1.png" width="1730" height="1081" alt="" loading="lazy">
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <details class="drop" name="approach">
+              <summary class="drop__head">
+                <h3 class="drop__title">Design Journey</h3>
+                <span class="drop__icon"><img src="assets/plus-beige.svg" width="11" height="11" alt=""></span>
+              </summary>
+              <div class="drop__body">
+                <div class="drop__content">
+                  <div class="drop__text">
+                    <p>From the first sketches to the finished building, we explore form, structure and materials together with engineers and makers.</p>
+                    <p>Models, prototypes and digital tools let us test ideas early and refine them at every stage of the journey.</p>
+                  </div>
+                  <div class="drop__img">
+                    <img src="assets/thinking-2.png" width="1730" height="1081" alt="" loading="lazy">
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <details class="drop" name="approach" open>
+              <summary class="drop__head">
+                <h3 class="drop__title">Design for People</h3>
+                <span class="drop__icon"><img src="assets/plus-beige.svg" width="11" height="11" alt=""></span>
+              </summary>
+              <div class="drop__body">
+                <div class="drop__content">
+                  <div class="drop__text">
+                    <p>People need to be at the heart of our design, and we see our community as having a number of constituencies.<br>The intended user; the client body and the daily occupants and visitors to our buildings.</p>
+                    <p>Those in the vicinity experiencing the building in its wider context; considering and taking responsibility for economic, societal and environmental impacts of construction and operation.</p>
+                    <p>Our peers in practice, other construction partners and the next generation of architects; contribute to best practice, architectural education and efforts to make the profession more accountable and representative of wider society.</p>
+                  </div>
+                  <div class="drop__img drop__img--people">
+                    <img src="assets/approach-3.png" width="1200" height="750" alt="Sunlit lounge with glass walls looking out to trees" loading="lazy">
+                  </div>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section sustain" aria-labelledby="sustain-title">
+      <div class="container sustain__content">
+        <header class="section-head">
+          <p class="section-head__caption">Sustainability</p>
+          <h2 class="section-head__title" id="sustain-title">At WilkinsonEyre we believe that innovation, collaboration and good design can further sustainability goals.</h2>
+        </header>
+
+        <!-- Mobile: text, photo, then the 1983–2024 circle.
+             Tablet / desktop: the circle on the left, text and photo on the right -->
+        <div class="sustain__body">
+          <div class="sustain__main">
+            <div class="sustain__text">
+              <p>Since the inception of the practice in 1983, we have consistently pushed the integration of architecture, engineering and technology. We seek to optimise the synergy between good aesthetics, structure, and environmental design, to draw out the best aspects of each with elegance and economy.</p>
+              <p>This ethos has driven WilkinsonEyre to deliver innovative, efficient and beautiful design solutions that achieve a balance between ethical, environmental, social and economic sustainability.</p>
+              <p>We embrace the fundamental principle of “doing more with less” that inspired the high-tech architectural movement and have successfully interpreted this philosophy to design for the urgent environmental needs of the 21st Century.</p>
+            </div>
+            <div class="sustain__img">
+              <img src="assets/sustainability.png" width="1730" height="1081" alt="Architect taking notes in the studio" loading="lazy">
+            </div>
+          </div>
+
+          <!-- "1983 — circle — 2024": dashed circle with a dot on top and bottom -->
+          <div class="years">
+            <p class="years__date">1983</p>
+            <div class="years__circle">
+              <picture>
+                <source media="(min-width: 768px)" srcset="assets/years-circle.png">
+                <img class="years__ring" src="assets/years-circle-sm.png" width="217" height="217" alt="">
+              </picture>
+              <img class="years__dot years__dot--top" src="assets/dot-beige.svg" width="10" height="10" alt="">
+              <img class="years__dot years__dot--bottom" src="assets/dot-beige.svg" width="10" height="10" alt="">
+              <p class="years__text">We have been successfully implementing architectural projects for more than <br class="years__br">40&nbsp;years</p>
+            </div>
+            <p class="years__date">2024</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="contact">
+    <div class="container footer__inner">
+      <div class="footer__main">
+        <div class="footer__about">
+          <a class="footer__logo" href="index.html">WilkinsonEyre</a>
+          <p class="footer__text">We are happy to answer your questions and discuss your project</p>
+        </div>
+
+        <!-- Two menu columns; on desktop they sit in the footer grid directly -->
+        <nav class="footer__nav" aria-label="Footer">
+          <ul class="footer__menu">
+            <li><a href="project.html">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="index.html#career">Careers</a></li>
+          </ul>
+          <ul class="footer__menu">
+            <li><a href="index.html#news">News</a></li>
+            <li><a href="contacts.html">Contact</a></li>
+          </ul>
+        </nav>
+
+        <address class="footer__contacts">
+          <p><span>General Enquiries</span> <a href="mailto:info@wilkinsoneyre.com">info@wilkinsoneyre.com</a></p>
+          <p><span>Press Enquiries</span> <a href="mailto:press@wilkinsoneyre.com">press@wilkinsoneyre.com</a></p>
+          <p><span>New Business Enquiries</span> <a href="mailto:newbusiness@wilkinsoneyre.com">newbusiness@wilkinsoneyre.com</a></p>
+        </address>
+      </div>
+
+      <div class="footer__bottom">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Cookie notifications</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

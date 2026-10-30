@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projects — WilkinsonEyre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fallback fonts, used only if Soligant / Neue Haas Grotesk aren't installed -->
+  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Inter:wght@500;600&display=swap" rel="stylesheet">
+  <!-- Marks that JS runs, so scroll-reveal elements may start hidden -->
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <!-- Same header as on the home page. No dark hero here, so it starts
+       in its dark state (.is-ready) instead of waiting for script.js -->
+  <header class="header is-ready">
+    <div class="container header__inner">
+      <a class="header__logo" href="index.html">WilkinsonEyre</a>
+
+      <nav class="header__nav" aria-label="Main">
+        <ul class="header__menu">
+          <li><a href="project.html" aria-current="page">Projects</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="index.html#career">Careers</a></li>
+          <li><a href="index.html#news">News</a></li>
+          <li><a href="contacts.html">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Mobile / tablet: opens the full-screen menu below -->
+      <button class="header__burger" type="button" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
+    </div>
+  </header>
+
+  <!-- Mobile / tablet menu: slides in from the right under the header -->
+  <div class="mobile-menu" id="mobile-menu" inert>
+    <div class="container mobile-menu__inner">
+      <nav aria-label="Main">
+        <ul class="mobile-menu__list">
+          <li><a href="project.html" aria-current="page">Projects</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="index.html#career">Careers</a></li>
+          <li><a href="index.html#news">News</a></li>
+          <li><a href="contacts.html">Contact</a></li>
+        </ul>
+      </nav>
+
+      <address class="mobile-menu__contacts">
+        <a href="mailto:info@wilkinsoneyre.com">info@wilkinsoneyre.com</a>
+        <a href="mailto:press@wilkinsoneyre.com">press@wilkinsoneyre.com</a>
+        <a href="mailto:newbusiness@wilkinsoneyre.com">newbusiness@wilkinsoneyre.com</a>
+      </address>
+    </div>
+  </div>
+
+  <main class="portfolio">
+    <div class="container portfolio__content">
+      <h1 class="portfolio__title">Implemented projects</h1>
+
+      <div class="portfolio__body">
+        <!-- Side menu: three dropdown filters.
+             Mobile / tablet: one row above the grid; desktop: left column with a vertical line -->
+        <aside class="portfolio__sidebar" aria-label="Filter projects">
+          <div class="filters">
+            <div class="filter" data-filter="experience">
+              <button class="filter__toggle" type="button" aria-expanded="false" aria-controls="filter-experience">
+                Experience / <span class="filter__value">All</span>
+              </button>
+              <ul class="filter__menu" id="filter-experience" hidden>
+                <li><button class="filter__option" type="button" data-value="all" aria-pressed="true">All</button></li>
+                <li><button class="filter__option" type="button" data-value="culture" aria-pressed="false">Culture</button></li>
+                <li><button class="filter__option" type="button" data-value="education" aria-pressed="false">Education</button></li>
+                <li><button class="filter__option" type="button" data-value="hospitality" aria-pressed="false">Hospitality</button></li>
+                <li><button class="filter__option" type="button" data-value="infrastructure" aria-pressed="false">Infrastructure</button></li>
+                <li><button class="filter__option" type="button" data-value="workplace" aria-pressed="false">Workplace</button></li>
+              </ul>
+            </div>
+
+            <div class="filter" data-filter="status">
+              <button class="filter__toggle" type="button" aria-expanded="false" aria-controls="filter-status">
+                Status / <span class="filter__value">All</span>
+              </button>
+              <ul class="filter__menu" id="filter-status" hidden>
+                <li><button class="filter__option" type="button" data-value="all" aria-pressed="true">All</button></li>
+                <li><button class="filter__option" type="button" data-value="completed" aria-pressed="false">Completed</button></li>
+                <li><button class="filter__option" type="button" data-value="in-progress" aria-pressed="false">In progress</button></li>
+              </ul>
+            </div>
+
+            <div class="filter" data-filter="location">
+              <button class="filter__toggle" type="button" aria-expanded="false" aria-controls="filter-location">
+                Location / <span class="filter__value">All</span>
+              </button>
+              <ul class="filter__menu" id="filter-location" hidden>
+                <li><button class="filter__option" type="button" data-value="all" aria-pressed="true">All</button></li>
+                <li><button class="filter__option" type="button" data-value="uk" aria-pressed="false">United Kingdom</button></li>
+                <li><button class="filter__option" type="button" data-value="europe" aria-pressed="false">Europe</button></li>
+                <li><button class="filter__option" type="button" data-value="asia" aria-pressed="false">Asia</button></li>
+                <li><button class="filter__option" type="button" data-value="australia" aria-pressed="false">Australia</button></li>
+              </ul>
+            </div>
+          </div>
+        </aside>
+
+        <div class="portfolio__main">
+          <!-- Mobile: one column of framed cards. Tablet: 2 columns, large photos span both.
+               Desktop: 4 columns placed as in Figma (see style.css) -->
+          <ul class="portfolio__grid">
+            <li class="portfolio__item portfolio__item--large" data-experience="infrastructure" data-status="in-progress" data-location="uk">
+              <a class="project-tile" href="project-page.html">
+                <div class="project-tile__img">
+                  <img src="assets/portfolio-hs2.png" width="1730" height="1081" alt="HS2 Old Oak Common station from above" loading="lazy" style="object-position: 59.5% 50%">
+                </div>
+                <p class="project-tile__text">
+                  <span class="project-tile__name">HS2 Old Oak Common</span>
+                  <span class="project-tile__place">London, United Kingdom</span>
+                </p>
+              </a>
+            </li>
+            <li class="portfolio__item" data-experience="culture" data-status="completed" data-location="asia">
+              <a class="project-tile" href="project-page.html">
+                <div class="project-tile__img">
+                  <img src="assets/project-2.png" width="1730" height="1081" alt="State Theatre" loading="lazy">
+                </div>
+                <p class="project-tile__text">
+                  <span class="project-tile__name">State Theatre</span>
+                  <span class="project-tile__place">Hong Kong SAR, Asia</span>
+                </p>
+              </a>
+            </li>
+            <li class="portfolio__item" data-experience="education" data-status="completed" data-location="uk">
+              <a class="project-tile" href="project-page.html">
+                <div class="project-tile__img">
+                  <img src="assets/portfolio-schools.png" width="1730" height="1081" alt="Schools for the Future building" loading="lazy">
+                </div>
+                <p class="project-tile__text">
+                  <span class="project-tile__name">Schools for the Future</span>
+                  <span class="project-tile__place">Various, United Kingdom</span>
+                </p>
+              </a>
+            </li>
+            <li class="portfolio__item" data-experience="workplace" data-status="completed" data-location="uk">
+              <a class="project-tile" href="project-page.html">
+                <div class="project-tile__img">
+                  <img src="assets/portfolio-moorfields.png" width="1730" height="1081" alt="21 Moorfields building" loading="lazy">
+                </div>
+                <p class="project-tile__text">
+                  <span class="project-tile__name">21 Moorfields</span>
+                  <span class="project-tile__place">United Kingdom</span>
+                </p>
+              </a>
+            </li>
+            <li class="portfolio__item" data-experience="hospitality" data-status="completed" data-location="australia">
+              <a class="project-tile" href="project-page.html">
+                <div class="project-tile__img">
+                  <img src="assets/portfolio-barangaroo.png" width="1856" height="822" alt="One Barangaroo tower on the Sydney waterfront" loading="lazy" style="object-position: 84.4% 50%">
+                </div>
+                <p class="project-tile__text">
+                  <span class="project-tile__name">One Barangaroo</span>
+                  <span class="project-tile__place">Sydney, Australia</span>
+                </p>
+              </a>
+            </li>
+            <li class="portfolio__item portfolio__item--medium" data-experience="hospitality" data-status="in-progress" data-location="europe">
+              <a class="project-tile" href="project-page.html">
+                <div class="project-tile__img">
+                  <img src="assets/portfolio-bakhmaro.png" width="1730" height="1081" alt="Bakhmaro Mountain Hotel in the snow" loading="lazy">
+                </div>
+                <p class="project-tile__text">
+                  <span class="project-tile__name">Bakhmaro Mountain Hotel</span>
+                  <span class="project-tile__place">Georgia, Europe</span>
+                </p>
+              </a>
+            </li>
+            <li class="portfolio__item portfolio__item--large" data-experience="culture" data-status="in-progress" data-location="uk">
+              <a class="project-tile" href="project-page.html">
+                <!-- Zoomed crop from Figma: the photo is scaled past "cover" -->
+                <div class="project-tile__img project-tile__img--zoom">
+                  <img src="assets/portfolio-marlow.png" width="1730" height="1081" alt="Marlow Film Studios among the trees" loading="lazy">
+                </div>
+                <p class="project-tile__text">
+                  <span class="project-tile__name">Marlow Film Studios</span>
+                  <span class="project-tile__place">Marlow, United Kingdom</span>
+                </p>
+              </a>
+            </li>
+            <li class="portfolio__item" data-experience="workplace" data-status="in-progress" data-location="uk">
+              <a class="project-tile" href="project-page.html">
+                <div class="project-tile__img">
+                  <img src="assets/portfolio-citi.png" width="1730" height="1081" alt="Citi Tower in London" loading="lazy" style="object-position: 72% 50%">
+                </div>
+                <p class="project-tile__text">
+                  <span class="project-tile__name">Citi Tower</span>
+                  <span class="project-tile__place">London, United Kingdom</span>
+                </p>
+              </a>
+            </li>
+            <li class="portfolio__item" data-experience="education" data-status="completed" data-location="uk">
+              <a class="project-tile" href="project-page.html">
+                <div class="project-tile__img">
+                  <img src="assets/portfolio-dyson.png" width="1730" height="1081" alt="The Dyson STEAM Building" loading="lazy">
+                </div>
+                <p class="project-tile__text">
+                  <span class="project-tile__name">The Dyson STEAM</span>
+                  <span class="project-tile__place">Building, United Kingdom</span>
+                </p>
+              </a>
+            </li>
+            <li class="portfolio__item" data-experience="infrastructure" data-status="completed" data-location="uk">
+              <a class="project-tile" href="project-page.html">
+                <div class="project-tile__img">
+                  <img src="assets/portfolio-elizabeth.png" width="1730" height="1730" alt="Elizabeth Line station escalators" loading="lazy">
+                </div>
+                <p class="project-tile__text">
+                  <span class="project-tile__name">Elizabeth Line,</span>
+                  <span class="project-tile__place">United Kingdom</span>
+                </p>
+              </a>
+            </li>
+            <li class="portfolio__item" data-experience="infrastructure" data-status="in-progress" data-location="asia">
+              <a class="project-tile" href="project-page.html">
+                <div class="project-tile__img">
+                  <img src="assets/portfolio-sky-bridge.png" width="1730" height="1081" alt="Sky Bridge at dusk" loading="lazy" style="object-position: 76% 50%">
+                </div>
+                <p class="project-tile__text">
+                  <span class="project-tile__name">Sky Bridge</span>
+                  <span class="project-tile__place">Hong Kong SAR, Asia</span>
+                </p>
+              </a>
+            </li>
+            <li class="portfolio__item" data-experience="culture" data-status="completed" data-location="asia">
+              <a class="project-tile" href="project-page.html">
+                <div class="project-tile__img">
+                  <img src="assets/portfolio-gardens.png" width="1730" height="2307" alt="Supertrees at Gardens by the Bay" loading="lazy">
+                </div>
+                <p class="project-tile__text">
+                  <span class="project-tile__name">Gardens by the Bay</span>
+                  <span class="project-tile__place">Singapore, Asia</span>
+                </p>
+              </a>
+            </li>
+            <li class="portfolio__item portfolio__item--medium" data-experience="education" data-status="completed" data-location="uk">
+              <a class="project-tile" href="project-page.html">
+                <div class="project-tile__img">
+                  <img src="assets/portfolio-fry.png" width="1730" height="1081" alt="Patterned facade of the Fry Building" loading="lazy" style="object-position: 53% 0">
+                </div>
+                <p class="project-tile__text">
+                  <span class="project-tile__name">University of Bristol: Fry Building</span>
+                  <span class="project-tile__place">Bristol, United Kingdom</span>
+                </p>
+              </a>
+            </li>
+            <li class="portfolio__item" data-experience="infrastructure" data-status="completed" data-location="uk">
+              <a class="project-tile" href="project-page.html">
+                <div class="project-tile__img">
+                  <img src="assets/portfolio-bridge.png" width="1730" height="1081" alt="Inside the twisting Bridge of Aspiration" loading="lazy">
+                </div>
+                <p class="project-tile__text">
+                  <span class="project-tile__name">Bridge of Aspiration</span>
+                  <span class="project-tile__place">London, United Kingdom</span>
+                </p>
+              </a>
+            </li>
+          </ul>
+
+          <p class="portfolio__empty" hidden>No projects match these filters yet.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer" id="contact">
+    <div class="container footer__inner">
+      <div class="footer__main">
+        <div class="footer__about">
+          <a class="footer__logo" href="index.html">WilkinsonEyre</a>
+          <p class="footer__text">We are happy to answer your questions and discuss your project</p>
+        </div>
+
+        <!-- Two menu columns; on desktop they sit in the footer grid directly -->
+        <nav class="footer__nav" aria-label="Footer">
+          <ul class="footer__menu">
+            <li><a href="project.html">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="index.html#career">Careers</a></li>
+          </ul>
+          <ul class="footer__menu">
+            <li><a href="index.html#news">News</a></li>
+            <li><a href="contacts.html">Contact</a></li>
+          </ul>
+        </nav>
+
+        <address class="footer__contacts">
+          <p><span>General Enquiries</span> <a href="mailto:info@wilkinsoneyre.com">info@wilkinsoneyre.com</a></p>
+          <p><span>Press Enquiries</span> <a href="mailto:press@wilkinsoneyre.com">press@wilkinsoneyre.com</a></p>
+          <p><span>New Business Enquiries</span> <a href="mailto:newbusiness@wilkinsoneyre.com">newbusiness@wilkinsoneyre.com</a></p>
+        </address>
+      </div>
+
+      <div class="footer__bottom">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Cookie notifications</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

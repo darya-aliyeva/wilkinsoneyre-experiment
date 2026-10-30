@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WilkinsonEyre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fallback fonts, used only if Soligant / Neue Haas Grotesk aren't installed -->
+  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Inter:wght@500;600&display=swap" rel="stylesheet">
+  <!-- Marks that JS runs, so scroll-reveal elements may start hidden -->
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <!-- Sits on top of the hero -->
+  <header class="header">
+    <div class="container header__inner">
+      <a class="header__logo" href="index.html">WilkinsonEyre</a>
+
+      <nav class="header__nav" aria-label="Main">
+        <ul class="header__menu">
+          <li><a href="#architecture">Projects</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="#career">Careers</a></li>
+          <li><a href="#news">News</a></li>
+          <li><a href="contacts.html">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Mobile / tablet: opens the full-screen menu below -->
+      <button class="header__burger" type="button" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
+    </div>
+  </header>
+
+  <!-- Mobile / tablet menu: slides in from the right under the header -->
+  <div class="mobile-menu" id="mobile-menu" inert>
+    <div class="container mobile-menu__inner">
+      <nav aria-label="Main">
+        <ul class="mobile-menu__list">
+          <li><a href="#architecture">Projects</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="#career">Careers</a></li>
+          <li><a href="#news">News</a></li>
+          <li><a href="contacts.html">Contact</a></li>
+        </ul>
+      </nav>
+
+      <address class="mobile-menu__contacts">
+        <a href="mailto:info@wilkinsoneyre.com">info@wilkinsoneyre.com</a>
+        <a href="mailto:press@wilkinsoneyre.com">press@wilkinsoneyre.com</a>
+        <a href="mailto:newbusiness@wilkinsoneyre.com">newbusiness@wilkinsoneyre.com</a>
+      </address>
+    </div>
+  </div>
+
+  <section class="hero" data-header-dark>
+    <img class="hero__bg" src="assets/hero.png" alt="" fetchpriority="high">
+
+    <div class="hero__inner">
+      <ul class="hero__stats">
+        <li>3 branches worldwide</li>
+        <li>13 world awards</li>
+      </ul>
+
+      <h1 class="hero__title">
+        <span class="hero__title-line hero__title-line--right">Building long</span>
+        <span class="hero__title-line hero__title-line--center">lasting modern</span>
+        <span class="hero__title-line">architecture</span>
+      </h1>
+
+      <p class="hero__text">
+        Wilkinson Eyre is one of the world's leading architectural practices.
+        We've been creating international projects in the field of landscape
+        and architectural design of any complexity since 1999.
+      </p>
+
+      <img class="hero__star" src="assets/star.svg" width="328.551" height="337" alt="">
+    </div>
+
+    <p class="hero__brand">Wilkinson</p>
+  </section>
+
+  <section class="section architecture" id="architecture" aria-labelledby="architecture-title">
+    <div class="container section__body">
+      <div class="architecture__content">
+        <header class="section-head">
+          <p class="section-head__caption">Architecture</p>
+          <h2 class="section-head__title" id="architecture-title">Implemented projects in different parts of the world</h2>
+        </header>
+
+        <ul class="architecture__grid">
+          <li>
+            <a class="project-card" href="project-page.html">
+              <div class="project-card__img">
+                <img src="assets/project-1.png" width="202" height="202" alt="One Barangaroo interior" loading="lazy" style="object-position: 50% 90%">
+              </div>
+              <div class="project-card__info">
+                <p class="project-card__text">
+                  <span class="project-card__name">One Barangaroo</span>
+                  <span class="project-card__place">Sydney, Australia</span>
+                </p>
+                <img class="project-card__arrow" src="assets/arrow.svg" width="25" height="25" alt="">
+              </div>
+            </a>
+          </li>
+          <li>
+            <a class="project-card" href="project-page.html">
+              <div class="project-card__img">
+                <img src="assets/project-2.png" width="202" height="202" alt="State Theatre" loading="lazy" style="object-position: 43.5% 50%">
+              </div>
+              <div class="project-card__info">
+                <p class="project-card__text">
+                  <span class="project-card__name">State Theatre</span>
+                  <span class="project-card__place">Hong Kong SAR, Asia</span>
+                </p>
+                <img class="project-card__arrow" src="assets/arrow.svg" width="25" height="25" alt="">
+              </div>
+            </a>
+          </li>
+          <li>
+            <a class="project-card" href="project-page.html">
+              <div class="project-card__img">
+                <img src="assets/project-3.png" width="202" height="202" alt="North West Cambridge housing" loading="lazy">
+              </div>
+              <div class="project-card__info">
+                <p class="project-card__text">
+                  <span class="project-card__name">North West Cambridge</span>
+                  <span class="project-card__place">Cambridge, UK</span>
+                </p>
+                <img class="project-card__arrow" src="assets/arrow.svg" width="25" height="25" alt="">
+              </div>
+            </a>
+          </li>
+          <li>
+            <a class="project-card" href="project-page.html">
+              <div class="project-card__img">
+                <img src="assets/project-4.png" width="202" height="202" alt="SeaCity Museum" loading="lazy">
+              </div>
+              <div class="project-card__info">
+                <p class="project-card__text">
+                  <span class="project-card__name">SeaCity Museum</span>
+                  <span class="project-card__place">Southampton, UK</span>
+                </p>
+                <img class="project-card__arrow" src="assets/arrow.svg" width="25" height="25" alt="">
+              </div>
+            </a>
+          </li>
+          <li>
+            <a class="project-card" href="project-page.html">
+              <div class="project-card__img">
+                <img src="assets/project-5.png" width="202" height="202" alt="21 Moorfields building" loading="lazy">
+              </div>
+              <div class="project-card__info">
+                <p class="project-card__text">
+                  <span class="project-card__name">21 Moorfields</span>
+                  <span class="project-card__place">City of London, UK</span>
+                </p>
+                <img class="project-card__arrow" src="assets/arrow.svg" width="25" height="25" alt="">
+              </div>
+            </a>
+          </li>
+          <!-- Same card as the rest on mobile/tablet, enlarged only on desktop -->
+          <li class="architecture__feature">
+            <a class="project-card project-card--large" href="project-page.html">
+              <div class="project-card__img">
+                <img src="assets/project-6.png" width="488" height="475" alt="CIBC Square rooftop park with the CN Tower" loading="lazy">
+              </div>
+              <div class="project-card__info">
+                <p class="project-card__text">
+                  <span class="project-card__name">CIBC SQUARE</span>
+                  <span class="project-card__place">Toronto, Americas</span>
+                </p>
+                <img class="project-card__arrow" src="assets/arrow.svg" width="25" height="25" alt="">
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="button-wrap">
+        <a class="link-button" href="project.html">
+          <span class="link-button__row">
+            View all projects
+            <img src="assets/btn-arrow.svg" width="10.8536" height="10.8536" alt="">
+          </span>
+          <img class="link-button__line" src="assets/btn-line.svg" width="217" height="1" alt="">
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section thinking" id="thinking" aria-labelledby="thinking-title">
+    <div class="container section__body">
+      <div class="thinking__content">
+        <header class="section-head">
+          <p class="section-head__caption">Thinking</p>
+          <h2 class="section-head__title" id="thinking-title">Our work integrates architecture art, and engineering as complementary disciplines</h2>
+        </header>
+
+        <div class="thinking__body">
+          <div class="section-text">
+            <p>This section looks at the philosophy and the inspiration behind our work. In our pursuit of architectural excellence, we draw inspiration from diverse cultural influences, weaving them into the fabric of our designs to create spaces that resonate with authenticity and timelessness.</p>
+            <p>Our team is comprised of passionate professionals who bring a wealth of expertise and creativity to each project, pushing the boundaries of conventional thinking to deliver truly exceptional results.</p>
+          </div>
+
+          <div class="thinking__images">
+            <div class="thinking__img thinking__img--small">
+              <img src="assets/thinking-1.png" width="1730" height="1081" alt="Battersea Power Station across the river" loading="lazy">
+            </div>
+            <div class="thinking__img thinking__img--large">
+              <img src="assets/thinking-2.png" width="1730" height="1081" alt="The WilkinsonEyre team on the roof of a brick building" loading="lazy">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-wrap">
+        <a class="link-button" href="about.html">
+          <span class="link-button__row">
+            Read more
+            <img src="assets/btn-arrow.svg" width="10.8536" height="10.8536" alt="">
+          </span>
+          <img class="link-button__line" src="assets/btn-line.svg" width="217" height="1" alt="">
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section about" aria-labelledby="about-title">
+    <div class="container section__body">
+      <div class="about__content">
+        <header class="section-head">
+          <p class="section-head__caption">About</p>
+          <h2 class="section-head__title" id="about-title">We have built some <br class="about__br">of the world’s most recognisable landmarks.</h2>
+        </header>
+
+        <div class="about__body">
+          <div class="section-text about__text">
+            <p>Driven by a passion for architecture of the highest quality, we craft buildings of durability and delight. Our studios around the world design buildings that please clients and excite users. Our global portfolio includes Gardens by the Bay in Singapore and Crown Sydney, a luxury destination hotel for Australia.</p>
+            <p>We have spectacularly restored London’s Battersea Power Station, turning an industrial ruin into a new neighbourhood and visitor attraction, and have built headquarters and campuses for Dyson, Wellcome Trust, Deutsche Bank, CIBC, Munich RE, Facebook and Apple.</p>
+          </div>
+
+          <div class="about__photo">
+            <img src="assets/about-1.png" width="1730" height="1081" alt="Architects discussing a building model in the studio" loading="lazy">
+          </div>
+
+          <!-- Round photo with corner dots; hidden on mobile -->
+          <div class="about__round">
+            <div class="about__round-img">
+              <img src="assets/project-4.png" width="1730" height="1081" alt="SeaCity Museum clock tower at dusk" loading="lazy">
+            </div>
+            <img class="about__dot about__dot--tl" src="assets/dot.svg" width="10" height="10" alt="">
+            <img class="about__dot about__dot--tr" src="assets/dot.svg" width="10" height="10" alt="">
+            <img class="about__dot about__dot--bl" src="assets/dot.svg" width="10" height="10" alt="">
+            <img class="about__dot about__dot--br" src="assets/dot.svg" width="10" height="10" alt="">
+          </div>
+        </div>
+      </div>
+
+      <div class="button-wrap">
+        <a class="link-button" href="#">
+          <span class="link-button__row">
+            Read more
+            <img src="assets/btn-arrow.svg" width="10.8536" height="10.8536" alt="">
+          </span>
+          <img class="link-button__line" src="assets/btn-line.svg" width="217" height="1" alt="">
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section services" aria-labelledby="services-title">
+    <div class="container services__content">
+      <header class="section-head">
+        <p class="section-head__caption">Our services</p>
+        <h2 class="section-head__title" id="services-title">Get acquainted with the services of our company</h2>
+      </header>
+
+      <!-- Mobile: horizontal slider; tablet: 2 × 2; desktop: 4 columns with the star circle -->
+      <ul class="services__grid slider">
+        <li class="service-card" data-header-dark>
+          <h3 class="service-card__title">Architectural<br>Design</h3>
+          <span class="service-card__num">01</span>
+          <p class="service-card__text">
+            <b>Includes:</b> layout, interior and exterior design, concept development.<br>
+            <b>Timeline:</b> typically several months to a year, depending on project scope and requirements.
+          </p>
+        </li>
+        <li class="services__star" aria-hidden="true">
+          <img src="assets/services-star.svg" width="135" height="135" alt="">
+        </li>
+        <li class="service-card" data-header-dark>
+          <h3 class="service-card__title">Project Construction Management</h3>
+          <span class="service-card__num">02</span>
+          <p class="service-card__text">
+            <b>Includes:</b> project management, planning, budget, and timeline control.<br>
+            <b>Timeline:</b> throughout the construction period, from project initiation to completion.
+          </p>
+        </li>
+        <li class="service-card" data-header-dark>
+          <h3 class="service-card__title">Energy Efficiency and Sustainability</h3>
+          <span class="service-card__num">03</span>
+          <p class="service-card__text">
+            <b>Includes:</b> use of eco-friendly materials, implementation of energy-saving technologies.<br>
+            <b>Timeline:</b> within several months, depending on the scope of work.
+          </p>
+        </li>
+        <li class="service-card service-card--4" data-header-dark>
+          <h3 class="service-card__title">Construction and Engineering Works</h3>
+          <span class="service-card__num">04</span>
+          <p class="service-card__text">
+            <b>Includes:</b> building construction, engineering systems, communications.<br>
+            <b>Timeline:</b> from several months to several years, depending on the project's scale.
+          </p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section career" id="career" aria-labelledby="career-title">
+    <div class="container section__body">
+      <div class="career__content">
+        <header class="section-head">
+          <p class="section-head__caption">Career</p>
+          <h2 class="section-head__title" id="career-title">Join Our Team: Opportunities in Architecture and Construction</h2>
+        </header>
+
+        <!-- Exclusive accordion: details with the same name close each other -->
+        <div class="career__list">
+          <details class="job" name="career" open>
+            <summary class="job__head">
+              <span class="job__num">01</span>
+              <span class="job__place">Hong Kong SAR</span>
+              <span class="job__title-wrap">
+                <span class="job__title">Architectural Assistant</span>
+                <span class="job__desc">WilkinsonEyre is recruiting Architectural Assistant</span>
+              </span>
+              <span class="job__icon"><img src="assets/plus.svg" width="11" height="11" alt=""></span>
+            </summary>
+            <div class="job__body">
+              <div class="job__col">
+                <h3 class="job__col-title">Responsibilities:</h3>
+                <ol class="job__items">
+                  <li>Produce design and technical drawings</li>
+                  <li>Produce presentation material, reports and models</li>
+                  <li>Liaise with external consultants as appropriate</li>
+                  <li>Maintain project primer as appropriate</li>
+                  <li>Other tasks as reasonably required from time to time</li>
+                  <li>Attend and contribute to studio meetings and Practice meetings</li>
+                  <li>Keep up to date with the work of the Practice</li>
+                  <li>Develop an appropriate understanding of HK &amp; China legislation, planning, construction and health and safety</li>
+                </ol>
+              </div>
+              <div class="job__col">
+                <h3 class="job__col-title">Requirements:</h3>
+                <ol class="job__items">
+                  <li>Ability to prioritise workload and meet deadlines</li>
+                  <li>Good design eye and drawing skills, preferably by hand as well as CAD</li>
+                  <li>Ability to communicate ideas both verbally and visually in Chinese and English, native Mandarin speaker to communicate with our China project clients</li>
+                  <li>Knowledge of Revit and/or SketchUp is preferable</li>
+                  <li>Knowledge of Adobe packages</li>
+                </ol>
+              </div>
+            </div>
+          </details>
+
+          <details class="job" name="career">
+            <summary class="job__head">
+              <span class="job__num">02</span>
+              <span class="job__place">London</span>
+              <span class="job__title-wrap">
+                <span class="job__title">Transportation Designers</span>
+                <span class="job__desc">Working on projects in the UK and abroad</span>
+              </span>
+              <span class="job__icon"><img src="assets/plus.svg" width="11" height="11" alt=""></span>
+            </summary>
+          </details>
+
+          <details class="job" name="career">
+            <summary class="job__head">
+              <span class="job__num">03</span>
+              <span class="job__place">London</span>
+              <span class="job__title-wrap">
+                <span class="job__title">Mid-Level BIM Coordinator</span>
+                <span class="job__desc">WilkinsonEyre is hiring a full-time, permanent BIM Coordinator</span>
+              </span>
+              <span class="job__icon"><img src="assets/plus.svg" width="11" height="11" alt=""></span>
+            </summary>
+          </details>
+        </div>
+      </div>
+
+      <div class="button-wrap">
+        <a class="link-button" href="#">
+          <span class="link-button__row">
+            Send CV to email
+            <img src="assets/btn-arrow.svg" width="10.8536" height="10.8536" alt="">
+          </span>
+          <img class="link-button__line" src="assets/btn-line.svg" width="217" height="1" alt="">
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section news" id="news" aria-labelledby="news-title">
+    <div class="container news__content">
+      <header class="section-head">
+        <p class="section-head__caption">News</p>
+        <h2 class="section-head__title" id="news-title">News about completed projects</h2>
+      </header>
+
+      <!-- Mobile: slider; tablet: stacked rows; desktop: large card + 2 rows -->
+      <ul class="news__list slider">
+        <li class="news__item news__item--large">
+          <a class="news-card" href="#" data-header-dark>
+            <div class="news-card__img">
+              <img src="assets/news-1.png" width="1730" height="1081" alt="Keating Channel Pedestrian Bridge at night" loading="lazy">
+            </div>
+            <div class="news-card__text">
+              <time class="news-card__date" datetime="2024-05-14">14.05.24</time>
+              <h3 class="news-card__title">WilkinsonEyre Awarded Keating Channel Pedestrian Bridge After Design Competition</h3>
+              <p class="news-card__desc">Providing an elevated path of travel across the water, the Keating Bridge will be a destination, offering a meeting place to rest and connect with nature.</p>
+            </div>
+          </a>
+        </li>
+        <li class="news__item">
+          <a class="news-card" href="#" data-header-dark>
+            <div class="news-card__img">
+              <img src="assets/news-2.png" width="1730" height="1081" alt="RHS Hilltop building surrounded by gardens" loading="lazy" style="object-position: 57.7% 50%">
+            </div>
+            <div class="news-card__text">
+              <time class="news-card__date" datetime="2021-06-25">25.06.2021</time>
+              <h3 class="news-card__title">We have completed RHS Hilltop - The Home of Gardening Science</h3>
+              <p class="news-card__desc">We are excited to have completed the UK’s first dedicated gardening science hub commissioned by the Royal Horticultural Society for their Wisley site in Surrey.</p>
+            </div>
+          </a>
+        </li>
+        <li class="news__item">
+          <a class="news-card" href="#" data-header-dark>
+            <div class="news-card__img">
+              <img src="assets/news-3.png" width="1730" height="1081" alt="Timber roof of the LSBU Hub atrium" loading="lazy">
+            </div>
+            <div class="news-card__text">
+              <time class="news-card__date" datetime="2024-02-15">15.02.24</time>
+              <h3 class="news-card__title">WilkinsonEyre is Shortlisted for RIBA London Awards 2024</h3>
+              <p class="news-card__desc">The London Road building has been radically transformed to create the LSBU Hub, an open and inviting centrepiece for its main Southwark campus.</p>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <footer class="footer" id="contact">
+    <div class="container footer__inner">
+      <div class="footer__main">
+        <div class="footer__about">
+          <a class="footer__logo" href="index.html">WilkinsonEyre</a>
+          <p class="footer__text">We are happy to answer your questions and discuss your project</p>
+        </div>
+
+        <!-- Two menu columns; on desktop they sit in the footer grid directly -->
+        <nav class="footer__nav" aria-label="Footer">
+          <ul class="footer__menu">
+            <li><a href="#architecture">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="#career">Careers</a></li>
+          </ul>
+          <ul class="footer__menu">
+            <li><a href="#news">News</a></li>
+            <li><a href="contacts.html">Contact</a></li>
+          </ul>
+        </nav>
+
+        <address class="footer__contacts">
+          <p><span>General Enquiries</span> <a href="mailto:info@wilkinsoneyre.com">info@wilkinsoneyre.com</a></p>
+          <p><span>Press Enquiries</span> <a href="mailto:press@wilkinsoneyre.com">press@wilkinsoneyre.com</a></p>
+          <p><span>New Business Enquiries</span> <a href="mailto:newbusiness@wilkinsoneyre.com">newbusiness@wilkinsoneyre.com</a></p>
+        </address>
+      </div>
+
+      <div class="footer__bottom">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Cookie notifications</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contacts — WilkinsonEyre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fallback fonts, used only if Soligant / Neue Haas Grotesk aren't installed -->
+  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Inter:wght@500;600&display=swap" rel="stylesheet">
+  <!-- Marks that JS runs, so scroll-reveal elements may start hidden -->
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <!-- Same header as on the other pages. No dark hero here, so it starts
+       in its dark state (.is-ready) instead of waiting for script.js -->
+  <header class="header is-ready">
+    <div class="container header__inner">
+      <a class="header__logo" href="index.html">WilkinsonEyre</a>
+
+      <nav class="header__nav" aria-label="Main">
+        <ul class="header__menu">
+          <li><a href="project.html">Projects</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="index.html#career">Careers</a></li>
+          <li><a href="index.html#news">News</a></li>
+          <li><a href="contacts.html" aria-current="page">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Mobile / tablet: opens the full-screen menu below -->
+      <button class="header__burger" type="button" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
+    </div>
+  </header>
+
+  <!-- Mobile / tablet menu: slides in from the right under the header -->
+  <div class="mobile-menu" id="mobile-menu" inert>
+    <div class="container mobile-menu__inner">
+      <nav aria-label="Main">
+        <ul class="mobile-menu__list">
+          <li><a href="project.html">Projects</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="index.html#career">Careers</a></li>
+          <li><a href="index.html#news">News</a></li>
+          <li><a href="contacts.html" aria-current="page">Contact</a></li>
+        </ul>
+      </nav>
+
+      <address class="mobile-menu__contacts">
+        <a href="mailto:info@wilkinsoneyre.com">info@wilkinsoneyre.com</a>
+        <a href="mailto:press@wilkinsoneyre.com">press@wilkinsoneyre.com</a>
+        <a href="mailto:newbusiness@wilkinsoneyre.com">newbusiness@wilkinsoneyre.com</a>
+      </address>
+    </div>
+  </div>
+
+  <main class="contacts">
+    <!-- Running "✶ CONTACTS" line: two identical groups slide left in a loop.
+         Full screen width on mobile / tablet, the 1200px content on desktop -->
+    <h1 class="contacts__title">
+      <span class="visually-hidden">Contacts</span>
+      <span class="marquee" aria-hidden="true">
+        <span class="marquee__track">
+          <span class="marquee__group">
+            <img class="marquee__star" src="assets/contacts-star.svg" width="90" height="90" alt="">
+            <span>Contacts</span>
+            <img class="marquee__star" src="assets/contacts-star.svg" width="90" height="90" alt="">
+            <span>Contacts</span>
+            <img class="marquee__star" src="assets/contacts-star.svg" width="90" height="90" alt="">
+            <span>Contacts</span>
+            <img class="marquee__star" src="assets/contacts-star.svg" width="90" height="90" alt="">
+            <span>Contacts</span>
+          </span>
+          <span class="marquee__group">
+            <img class="marquee__star" src="assets/contacts-star.svg" width="90" height="90" alt="">
+            <span>Contacts</span>
+            <img class="marquee__star" src="assets/contacts-star.svg" width="90" height="90" alt="">
+            <span>Contacts</span>
+            <img class="marquee__star" src="assets/contacts-star.svg" width="90" height="90" alt="">
+            <span>Contacts</span>
+            <img class="marquee__star" src="assets/contacts-star.svg" width="90" height="90" alt="">
+            <span>Contacts</span>
+          </span>
+        </span>
+      </span>
+    </h1>
+
+    <div class="container">
+      <!-- Office cards. The clocks show the current local time (script.js),
+           the Figma times are the no-JS fallback -->
+      <ul class="offices">
+        <li class="office">
+          <div class="office__info">
+            <div class="office__head">
+              <h2 class="office__city">London</h2>
+              <address class="office__address">33 Bowling Green Lane<br>London EC1R 0BJ<br>United Kingdom</address>
+            </div>
+            <div class="office__foot">
+              <div class="clock" data-timezone="Europe/London">
+                <img class="clock__arc" src="assets/clock-arc-london.svg" width="48.5" height="97" alt="" style="left: 48.5px">
+                <img class="clock__dial" src="assets/clock-dial-london.png" width="70" height="70" alt="">
+                <p class="clock__time"><span class="clock__period">am</span> <span class="clock__hours">09:54</span></p>
+              </div>
+              <p class="office__contacts">
+                <a href="tel:+442076087900">T +44 (0)20 7608 7900</a><br>
+                <a href="mailto:info@wilkinsoneyre.com">info@wilkinsoneyre.com</a>
+              </p>
+            </div>
+          </div>
+          <div class="office__img">
+            <img src="assets/contacts-london.png" width="1730" height="1081" alt="WilkinsonEyre London studio" loading="lazy" style="object-position: 0 50%">
+          </div>
+        </li>
+        <li class="office">
+          <div class="office__info">
+            <div class="office__head">
+              <h2 class="office__city">Hong Kong SAR</h2>
+              <address class="office__address">13/F China Hong Kong Tower<br>8-12 Hennessy Road<br>Wan Chai, Hong Kong</address>
+            </div>
+            <div class="office__foot">
+              <div class="clock" data-timezone="Asia/Hong_Kong">
+                <img class="clock__arc" src="assets/clock-arc-hong-kong.svg" width="96.9926" height="49.3466" alt="" style="left: 0">
+                <img class="clock__dial" src="assets/clock-dial-hong-kong.png" width="70" height="61" alt="">
+                <p class="clock__time"><span class="clock__period">pm</span> <span class="clock__hours">04:54</span></p>
+              </div>
+              <p class="office__contacts">
+                <a href="tel:+85221108055">T +852 2110 8055</a><br>
+                <a href="mailto:asiapacific@wilkinsoneyre.com">asiapacific@wilkinsoneyre.com</a>
+              </p>
+            </div>
+          </div>
+          <div class="office__img">
+            <img src="assets/contacts-hong-kong.png" width="1024" height="1024" alt="WilkinsonEyre Hong Kong studio" loading="lazy" style="object-position: 50% 59%">
+          </div>
+        </li>
+        <li class="office">
+          <div class="office__info">
+            <div class="office__head">
+              <h2 class="office__city">Sydney</h2>
+              <address class="office__address">201 Kent Street<br>Sydney PO Box R55<br>NSW 2000, Australia</address>
+            </div>
+            <div class="office__foot">
+              <div class="clock" data-timezone="Australia/Sydney">
+                <img class="clock__arc" src="assets/clock-arc-sydney.svg" width="88.7083" height="75.6209" alt="" style="left: 8.29px">
+                <img class="clock__dial" src="assets/clock-dial-sydney.png" width="70" height="70" alt="">
+                <p class="clock__time"><span class="clock__period">pm</span> <span class="clock__hours">06:54</span></p>
+              </div>
+              <p class="office__contacts">
+                <a href="tel:+61292470740">T +61 02 9247 07 40</a><br>
+                <a href="mailto:australia@wilkinsoneyre.com">australia@wilkinsoneyre.com</a>
+              </p>
+            </div>
+          </div>
+          <div class="office__img">
+            <img src="assets/contacts-sydney.png" width="1730" height="1081" alt="WilkinsonEyre Sydney studio" loading="lazy" style="object-position: 40% 74%">
+          </div>
+        </li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="footer" id="contact">
+    <div class="container footer__inner">
+      <div class="footer__main">
+        <div class="footer__about">
+          <a class="footer__logo" href="index.html">WilkinsonEyre</a>
+          <p class="footer__text">We are happy to answer your questions and discuss your project</p>
+        </div>
+
+        <!-- Two menu columns; on desktop they sit in the footer grid directly -->
+        <nav class="footer__nav" aria-label="Footer">
+          <ul class="footer__menu">
+            <li><a href="project.html">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="index.html#career">Careers</a></li>
+          </ul>
+          <ul class="footer__menu">
+            <li><a href="index.html#news">News</a></li>
+            <li><a href="contacts.html">Contact</a></li>
+          </ul>
+        </nav>
+
+        <address class="footer__contacts">
+          <p><span>General Enquiries</span> <a href="mailto:info@wilkinsoneyre.com">info@wilkinsoneyre.com</a></p>
+          <p><span>Press Enquiries</span> <a href="mailto:press@wilkinsoneyre.com">press@wilkinsoneyre.com</a></p>
+          <p><span>New Business Enquiries</span> <a href="mailto:newbusiness@wilkinsoneyre.com">newbusiness@wilkinsoneyre.com</a></p>
+        </address>
+      </div>
+
+      <div class="footer__bottom">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Cookie notifications</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
